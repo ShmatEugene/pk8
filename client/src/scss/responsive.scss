@@ -217,13 +217,93 @@ $dark: #120f2d;
         width: 100%;
       }
     }
+    .sh-bg.header__bg {
+      position: initial;
+    }
     .header-nav {
       height: 80px;
+      position: initial;
       &__logo {
         height: 50px;
       }
-      &__menu-list {
+      &__menu {
         display: none;
+        position: absolute;
+        top: 65px;
+        left: 0;
+        min-height: calc(100vh - 65px);
+        z-index: 3;
+        background: $accent;
+        width: 100%;
+        padding-top: 80px;
+        &_active {
+          display: block;
+        }
+      }
+      &__menu-item {
+        &:hover {
+          & .header-nav__menu-link::after {
+            opacity: 0;
+          }
+          i {
+            &::before {
+              transform: rotate(0deg);
+            }
+          }
+        }
+        &_active {
+          i {
+            &::before {
+              transform: rotate(180deg) !important;
+            }
+          }
+        }
+      }
+      &__menu-list {
+        width: 540px;
+        margin: 0 auto;
+        display: block;
+        & > li {
+          border-top: 1px solid darken($color: $light, $amount: 30%);
+          &:first-child {
+            border-top: none;
+          }
+        }
+      }
+      &__menu-link {
+        display: block;
+        color: $white;
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 0;
+        font-weight: 400;
+        margin-right: 0;
+      }
+      &__dropdown-munu-arrow {
+        display: none;
+      }
+      &__dropdown-menu {
+        display: none;
+        position: initial;
+        visibility: visible;
+        opacity: 1;
+        max-width: none;
+        background: none;
+        box-shadow: none;
+        color: $white;
+        padding-top: 0;
+        padding-left: 30px;
+        &_active {
+          display: block;
+        }
+      }
+      &__dropdown-link {
+        text-decoration: none;
+        font-size: 14px;
+      }
+      &__hamburger {
+        display: block;
+        z-index: 5;
       }
     }
   }
@@ -422,7 +502,8 @@ $dark: #120f2d;
     .header-top {
       height: auto;
       &__wrapper {
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: space-between;
       }
       &__contacts {
         padding: 20px;
@@ -431,21 +512,104 @@ $dark: #120f2d;
         margin-left: 0;
         display: block;
         margin-top: 5px;
+        font-size: 12px;
       }
       &__phone {
         display: block;
+        font-size: 12px;
       }
       &__login {
-        display: none;
+        display: block;
       }
+    }
+    .sh-bg.header__bg {
+      position: initial;
     }
     .header-nav {
       height: 80px;
+      position: initial;
       &__logo {
         height: 50px;
       }
-      &__menu-list {
+      &__menu {
         display: none;
+        position: absolute;
+        top: 65px;
+        left: 0;
+        min-height: calc(100vh - 65px);
+        z-index: 3;
+        background: $accent;
+        width: 100%;
+        padding-top: 80px;
+        &_active {
+          display: block;
+        }
+      }
+      &__menu-item {
+        &:hover {
+          & .header-nav__menu-link::after {
+            opacity: 0;
+          }
+          i {
+            &::before {
+              transform: rotate(0deg);
+            }
+          }
+        }
+        &_active {
+          i {
+            &::before {
+              transform: rotate(180deg) !important;
+            }
+          }
+        }
+      }
+      &__menu-list {
+        width: auto;
+        padding: 0 25px;
+        margin: 0 auto;
+        display: block;
+        & > li {
+          border-top: 1px solid darken($color: $light, $amount: 30%);
+          &:first-child {
+            border-top: none;
+          }
+        }
+      }
+      &__menu-link {
+        display: block;
+        color: $white;
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 0;
+        font-weight: 400;
+        margin-right: 0;
+      }
+      &__dropdown-munu-arrow {
+        display: none;
+      }
+      &__dropdown-menu {
+        display: none;
+        position: initial;
+        visibility: visible;
+        opacity: 1;
+        max-width: none;
+        background: none;
+        box-shadow: none;
+        color: $white;
+        padding-top: 0;
+        padding-left: 30px;
+        &_active {
+          display: block;
+        }
+      }
+      &__dropdown-link {
+        text-decoration: none;
+        font-size: 14px;
+      }
+      &__hamburger {
+        display: block;
+        z-index: 5;
       }
     }
   }

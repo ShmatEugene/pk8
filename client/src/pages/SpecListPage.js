@@ -1,7 +1,9 @@
 import React from 'react';
 import logo from '../assets/img/logo.png';
+import SpecList from '../components/Specialities/SpecList';
+import Search from '../components/UI/Search';
 
-const SpecList = () => {
+const SpecListPage = () => {
   return (
     <>
       {/* Header */}
@@ -163,62 +165,8 @@ const SpecList = () => {
       <main>
         <div className="wrapper">
           <div className="wrapper__specialities-page specialities-page">
-            <div className="search-block specialities-page__search-block">
-              <div className="search-block__sort">
-                Укрупненная группа <i className="fi-rr-angle-small-down"></i>
-              </div>
-              <div className="search-block__sort sort">
-                После 11 классов <i className="fi-rr-angle-small-down"></i>
-                <div className="sort__popup">
-                  <ul className="sort__list">
-                    <li>После 9 классов</li>
-                    <li>После 9 классов</li>
-                    <li>После 11 классов</li>
-                  </ul>
-                </div>
-              </div>
-              <input
-                placeholder="Искать по названию"
-                className="search-block__search-field"
-                type="text"
-              />
-              <i className="search-block__search-icon fi-rr-search"></i>
-            </div>
-            <div className="specialities-page__specialties-list specialties-list">
-              <div className="specialties-list__item">
-                <div className="specialties-list__code">15.01.03</div>
-                <h3 className="specialties-list__title">
-                  Оснащение средствами автоматизации технологических процессов и производств (по
-                  отраслям)
-                </h3>
-                <a className="specialties-list__link" href="#">
-                  подробнее
-                </a>
-              </div>
-              <div className="specialties-list__item">
-                <div className="specialties-list__code">09.03.02</div>
-                <h3 className="specialties-list__title">Прикладная информатика</h3>
-                <a className="specialties-list__link" href="#">
-                  подробнее
-                </a>
-              </div>
-              <div className="specialties-list__item">
-                <div className="specialties-list__code">15.01.03</div>
-                <h3 className="specialties-list__title">
-                  Оснащение средствами автоматизации информатика
-                </h3>
-                <a className="specialties-list__link" href="#">
-                  подробнее
-                </a>
-              </div>
-              <div className="specialties-list__item">
-                <div className="specialties-list__code">09.03.02</div>
-                <h3 className="specialties-list__title">Прикладная информатика</h3>
-                <a className="specialties-list__link" href="#">
-                  подробнее
-                </a>
-              </div>
-            </div>
+            <Search></Search>
+            <SpecList></SpecList>
           </div>
         </div>
       </main>
@@ -389,4 +337,4 @@ const SpecList = () => {
   );
 };
 
-export default SpecList;
+export default SpecListPage;

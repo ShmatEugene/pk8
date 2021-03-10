@@ -1,8 +1,12 @@
 import React from 'react';
 
 const Header = (props) => {
+  const [isMobileMenuOpen, setMobileMenu] = React.useState(false);
+  const [selectedDropdownMenu, setSelectedDropdownMenu] = React.useState(-1);
   const navLinks = [
     {
+      id: 1,
+      selected: false,
       to: '/',
       label: 'Колледж',
       exact: true,
@@ -19,6 +23,8 @@ const Header = (props) => {
       ],
     },
     {
+      id: 2,
+      selected: false,
       to: '/',
       label: 'Образование',
       exact: true,
@@ -28,13 +34,19 @@ const Header = (props) => {
           label: 'Структура и органы управления образовательной организацией',
           exact: true,
         },
-        { to: '/', label: 'Заказать справку об обучении', exact: true },
-        { to: '/', label: 'Документы', exact: true },
-        { to: '/', label: 'Стипендии', exact: true },
-        { to: '/', label: 'Галерея', exact: true },
+        { to: '/', label: 'Образовательные программы', exact: true },
+        { to: '/', label: 'Педагогический состав', exact: true },
+        { to: '/', label: 'Платные образовательные услуги', exact: true },
+        { to: '/', label: 'Вакантные места для перевода', exact: true },
+        { to: '/', label: 'Дополнительное образование', exact: true },
+        { to: '/', label: 'Дистанционное образование', exact: true },
+        { to: '/', label: 'Расписание занятий', exact: true },
+        { to: '/', label: 'Образовательные стандарты', exact: true },
       ],
     },
     {
+      id: 3,
+      selected: false,
       to: '/',
       label: 'Поступление',
       exact: true,
@@ -50,25 +62,41 @@ const Header = (props) => {
         { to: '/', label: 'Галерея', exact: true },
       ],
     },
-    {
-      to: '/',
-      label: 'Новости',
-      exact: true,
-      submenu: null,
-    },
+    { id: 4, selected: false, to: '/', label: 'Новости', exact: true, submenu: null },
   ];
+
+  const hamburgerClickHanlder = () => {
+    setMobileMenu(!isMobileMenuOpen);
+  };
+
+  const dropdownMenuClickHandler = (navLinkIndex) => {
+    if (navLinks[navLinkIndex].submenu && selectedDropdownMenu !== navLinkIndex) {
+      setSelectedDropdownMenu(navLinkIndex);
+    } else if (selectedDropdownMenu === navLinkIndex) {
+      setSelectedDropdownMenu(-1);
+    }
+  };
 
   function renderNavLinks(links) {
     return links.map((link, index) => (
       <li key={index + link.to}>
-        <div className="header-nav__menu-item">
-          <a className="header-nav__menu-link" href="#">
+        <div
+          className={`header-nav__menu-item  ${
+            selectedDropdownMenu === index ? 'header-nav__menu-item_active' : ''
+          }`}>
+          <a
+            onClick={() => dropdownMenuClickHandler(index)}
+            className="header-nav__menu-link"
+            href="#">
             {link.label}
             {link.submenu && <i className="fi-rr-angle-small-down"></i>}
           </a>
           <div className="header-nav__dropdown-munu-arrow"></div>
           {link.submenu && (
-            <div className="header-nav__dropdown-menu">
+            <div
+              className={`header-nav__dropdown-menu ${
+                selectedDropdownMenu === index ? 'header-nav__dropdown-menu_active' : ''
+              }`}>
               <ul className="header-nav__dropdown-list">
                 {link.submenu.map((submenuLink, subIndex) => (
                   <li key={index + ' ' + subIndex + link.to}>
@@ -111,128 +139,16 @@ const Header = (props) => {
               <img src={props.logo} alt="logo" />
             </a>
           </div>
-          <div className="header-nav__menu">
-            <ul className="header-nav__menu-list">
-              {renderNavLinks(navLinks)}
-              {/* <li>
-                <div className="header-nav__menu-item">
-                  <a className="header-nav__menu-link" href="#">
-                    Колледж <i className="fi-rr-angle-small-down"></i>
-                  </a>
-                  <div className="header-nav__dropdown-munu-arrow"></div>
-                  <div className="header-nav__dropdown-menu">
-                    <ul className="header-nav__dropdown-list">
-                      <li>
-                        <a className="header-nav__dropdown-link" href="#">
-                          Структура и органы управления образовательной организацией
-                        </a>
-                      </li>
-                      <li>
-                        <a className="header-nav__dropdown-link" href="#">
-                          Заказать справку об обучении
-                        </a>
-                      </li>
-                      <li>
-                        <a className="header-nav__dropdown-link" href="#">
-                          Документы
-                        </a>
-                      </li>
-                      <li>
-                        <a className="header-nav__dropdown-link" href="#">
-                          Стипендии
-                        </a>
-                      </li>
-                      <li>
-                        <a className="header-nav__dropdown-link" href="#">
-                          Галерея
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="header-nav__menu-item">
-                  <a className="header-nav__menu-link" href="#">
-                    Образование <i className="fi-rr-angle-small-down"></i>
-                  </a>
-                  <div className="header-nav__dropdown-munu-arrow"></div>
-                  <div className="header-nav__dropdown-menu">
-                    <ul className="header-nav__dropdown-list">
-                      <li>
-                        <a className="header-nav__dropdown-link" href="#">
-                          Структура и органы управления образовательной организацией
-                        </a>
-                      </li>
-                      <li>
-                        <a className="header-nav__dropdown-link" href="#">
-                          Заказать справку об обучении
-                        </a>
-                      </li>
-                      <li>
-                        <a className="header-nav__dropdown-link" href="#">
-                          Документы
-                        </a>
-                      </li>
-                      <li>
-                        <a className="header-nav__dropdown-link" href="#">
-                          Стипендии
-                        </a>
-                      </li>
-                      <li>
-                        <a className="header-nav__dropdown-link" href="#">
-                          Галерея
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="header-nav__menu-item">
-                  <a className="header-nav__menu-link" href="#">
-                    Поступление <i className="fi-rr-angle-small-down"></i>
-                  </a>
-                  <div className="header-nav__dropdown-munu-arrow"></div>
-                  <div className="header-nav__dropdown-menu">
-                    <ul className="header-nav__dropdown-list">
-                      <li>
-                        <a className="header-nav__dropdown-link" href="#">
-                          Структура и органы управления образовательной организацией
-                        </a>
-                      </li>
-                      <li>
-                        <a className="header-nav__dropdown-link" href="#">
-                          Заказать справку об обучении
-                        </a>
-                      </li>
-                      <li>
-                        <a className="header-nav__dropdown-link" href="#">
-                          Документы
-                        </a>
-                      </li>
-                      <li>
-                        <a className="header-nav__dropdown-link" href="#">
-                          Стипендии
-                        </a>
-                      </li>
-                      <li>
-                        <a className="header-nav__dropdown-link" href="#">
-                          Галерея
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="header-nav__menu-item">
-                  <a className="header-nav__menu-link" href="#">
-                    Новости
-                  </a>
-                </div>
-              </li> */}
-            </ul>
+          <div className={`header-nav__menu ${isMobileMenuOpen && 'header-nav__menu_active'}`}>
+            <ul className="header-nav__menu-list">{renderNavLinks(navLinks)}</ul>
+          </div>
+          <div onClick={hamburgerClickHanlder} className="hamburger header-nav__hamburger">
+            <span className="hamburger__outer">
+              <span
+                className={`hamburger__inner hamburger__inner_${
+                  isMobileMenuOpen && 'active'
+                }`}></span>
+            </span>
           </div>
         </div>
         {props.style === 1 ? (

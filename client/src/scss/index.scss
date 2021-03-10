@@ -1004,6 +1004,88 @@ ul {
   }
 }
 
+.hamburger {
+  cursor: pointer;
+  padding: 15px;
+  transition-timing-function: linear;
+  transition-duration: 0.15s;
+  transition-property: opacity, filter;
+  text-transform: none;
+  height: 24px;
+  &__outer {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 24px;
+  }
+  &__inner {
+    position: absolute;
+    width: 40px;
+    height: 2px;
+    transition-timing-function: ease;
+    transition-duration: 0.15s;
+    transition-property: transform;
+    background-color: $black;
+    display: block;
+    transition: background-color 0s linear 0.13s;
+    &::before {
+      content: '';
+      position: absolute;
+      width: 40px;
+      height: 2px;
+      transition-timing-function: ease;
+      transition-duration: 0.15s;
+      transition-property: transform;
+      background-color: $black;
+      display: block;
+      top: 10px;
+      transition: top 0.1s cubic-bezier(0.33333, 0.66667, 0.66667, 1) 0.2s,
+        transform 0.13s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      width: 40px;
+      height: 2px;
+      transition-timing-function: ease;
+      transition-duration: 0.15s;
+      transition-property: transform;
+      background-color: $black;
+      display: block;
+      top: 20px;
+      transition: top 0.2s cubic-bezier(0.33333, 0.66667, 0.66667, 1) 0.2s,
+        transform 0.13s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+    &_active {
+      transition-delay: 0.22s;
+      background-color: transparent !important;
+      &::before {
+        top: 0;
+        transition: top 0.1s cubic-bezier(0.33333, 0, 0.66667, 0.33333) 0.15s,
+          transform 0.13s cubic-bezier(0.215, 0.61, 0.355, 1) 0.22s;
+        transform: translate3d(0, 10px, 0) rotate(45deg);
+        background-color: $white !important;
+      }
+      &::after {
+        top: 0;
+        transition: top 0.2s cubic-bezier(0.33333, 0, 0.66667, 0.33333),
+          transform 0.13s cubic-bezier(0.215, 0.61, 0.355, 1) 0.22s;
+        transform: translate3d(0, 10px, 0) rotate(-45deg);
+        background-color: $white !important;
+      }
+    }
+  }
+  &_active {
+    opacity: 0;
+    &::before {
+      top: 0;
+      transition: top 0.1s cubic-bezier(0.33333, 0, 0.66667, 0.33333) 0.15s,
+        transform 0.13s cubic-bezier(0.215, 0.61, 0.355, 1) 0.22s;
+      transform: translate3d(0, 10px, 0) rotate(45deg);
+    }
+  }
+}
+
 /*---------------------------------------------------------------------
                                   Header
   -----------------------------------------------------------------------*/
@@ -1083,6 +1165,9 @@ ul {
     }
     &__menu-list {
       display: flex;
+    }
+    &__hamburger {
+      display: none;
     }
     &__menu-item {
       position: relative;
