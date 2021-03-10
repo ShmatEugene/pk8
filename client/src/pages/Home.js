@@ -1,152 +1,13 @@
 import React from 'react';
 import logo from '../assets/img/logo.png';
 import news from '../assets/img/news.jpg';
+import Header from '../components/Header/Header';
 
 const Home = () => {
   return (
     <>
       {/* Home Header */}
-      <header className="header">
-        <div className="header__header-top header-top">
-          <div className="wrapper header-top__wrapper">
-            <div className="header-top__contacts">
-              <a className="header-top__phone" href="tel:74955556677">
-                <i className="fi-rr-smartphone"></i>
-                <span>8 495 555 66 77</span>
-              </a>
-              <a className="header-top__mail" href="mailto:info@pk8.ru">
-                <i className="fi-rr-envelope"></i>
-                <span>info@pk8.ru</span>
-              </a>
-            </div>
-            <div className="header-top__login">
-              <a href="#">Войти</a>
-            </div>
-          </div>
-        </div>
-        <div className="header__bg wrapper sh-bg">
-          <div className="header__header-nav header-nav">
-            <div className="header-nav__logo">
-              <a href="/">
-                <img src={logo} alt="logo" />
-              </a>
-            </div>
-            <div className="header-nav__menu">
-              <ul>
-                <li>
-                  <a href="#">
-                    Колледж <i className="fi-rr-angle-small-down"></i>
-                  </a>
-                  <a href="#">
-                    Образование <i className="fi-rr-angle-small-down"></i>
-                  </a>
-                  <a href="#">
-                    Поступление <i className="fi-rr-angle-small-down"></i>
-                  </a>
-                  <a href="#">Новости</a>
-                </li>
-              </ul>
-            </div>
-            <div className="header-nav__dropdown-menu trans-05">
-              <div className="header-nav__dropdown-column">
-                <h3>Колледж</h3>
-                <ul className="header-nav__dropdown-list">
-                  <li>
-                    <a href="#">Структура и органы управления образовательной организацией</a>
-                  </li>
-                  <li>
-                    <a href="#">Заказать справку об обучении</a>
-                  </li>
-                  <li>
-                    <a href="#">Документы</a>
-                  </li>
-                  <li>
-                    <a href="#">Стипендии</a>
-                  </li>
-                  <li>
-                    <a href="#">Галерея</a>
-                  </li>
-                </ul>
-              </div>
-              <div className="header-nav__dropdown-column">
-                <h3>Образование</h3>
-                <ul className="header-nav__dropdown-list">
-                  <li>
-                    <a href="#">Структура и органы управления образовательной организацией</a>
-                  </li>
-                  <li>
-                    <a href="#">Заказать справку об обучении</a>
-                  </li>
-                  <li>
-                    <a href="#">Документы</a>
-                  </li>
-                  <li>
-                    <a href="#">Стипендии</a>
-                  </li>
-                  <li>
-                    <a href="#">Галерея</a>
-                  </li>
-                </ul>
-              </div>
-              <div className="header-nav__dropdown-column">
-                <h3>Поступление</h3>
-                <ul className="header-nav__dropdown-list">
-                  <li>
-                    <a href="#">Структура и органы управления образовательной организацией</a>
-                  </li>
-                  <li>
-                    <a href="#">Заказать справку об обучении</a>
-                  </li>
-                  <li>
-                    <a href="#">Документы</a>
-                  </li>
-                  <li>
-                    <a href="#">Стипендии</a>
-                  </li>
-                  <li>
-                    <a href="#">Галерея</a>
-                  </li>
-                </ul>
-              </div>
-              <div className="header-nav__dropdown-column">
-                <h3>Новости</h3>
-                <ul className="header-nav__dropdown-list">
-                  <li>
-                    <a href="#">Структура и органы управления образовательной организацией</a>
-                  </li>
-                  <li>
-                    <a href="#">Заказать справку об обучении</a>
-                  </li>
-                  <li>
-                    <a href="#">Документы</a>
-                  </li>
-                  <li>
-                    <a href="#">Стипендии</a>
-                  </li>
-                  <li>
-                    <a href="#">Галерея</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div className="header__content">
-            <h1 className="header__title">
-              Откройте свои карьерные <span className="sh-accent-font">возможности</span> с нами
-            </h1>
-            <p className="header__text sh-mt-30">
-              Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает
-              сосредоточиться Lorem Ipsum используют потому, что тот обеспечивает более или менее
-              стандартное заполнение шаблона.
-            </p>
-            <div className="sh-button header__button sh-mt-30">
-              <a href="#">
-                Узнать больше <i className="fi-rr-arrow-right"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header logo={logo} style={1}></Header>
       <main>
         {/* countdown */}
         <section className="countdown wrapper-fw sh-bg">
@@ -205,9 +66,7 @@ const Home = () => {
                 <i className="fi-rr-graduation-cap"></i>
               </div>
               <div className="advantage__content">
-                <h3 className="advantage__title">
-                  Высококвалифицированный педагогический коллектив
-                </h3>
+                <h3 className="advantage__title">Квалифицированный педагогический коллектив</h3>
                 <p className="advantage__text">
                   Научно-исследовательская и проектная деятельность с первого курса
                 </p>
@@ -266,7 +125,7 @@ const Home = () => {
             </div>
           </div>
         </section>
-        {/* Message */}
+        {/* SPECIALITIES */}
         <section className="home-specialties wrapper overview-block-pt">
           <div className="title title_center home-specialties__title">
             <h2>Направления подготовки</h2>
@@ -448,7 +307,7 @@ const Home = () => {
               <form className="callback__form" action="#">
                 <input
                   className="callback__input"
-                  type="text"
+                  type="number"
                   placeholder="введите номер телефона"
                 />
                 <button className="callback__button" type="submit">
