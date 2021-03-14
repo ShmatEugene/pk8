@@ -7,7 +7,6 @@ const router = Router();
 router.post('/add', auth, async (req, res) => {
   try {
     specialityFields = req.body.specialityFields;
-    console.log(specialityFields);
     const spec = new Speciality({
       code: specialityFields.code,
       title: specialityFields.title,

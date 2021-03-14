@@ -4,7 +4,7 @@ const schema = new Schema({
   //_id: Schema.ObjectId,
   code: { type: String, required: true },
   title: { type: String, required: true },
-  yearsToStudy: { type: Number },
+  yearsToStudy: { type: String },
   stateFundedPlacecesCounter: { type: Number },
   stateAccreditation: { type: Boolean },
   desc: { type: String },

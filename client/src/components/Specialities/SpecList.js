@@ -1,106 +1,36 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
-const SpecList = () => {
-  const specialities = [
-    {
-      id: 0,
-      code: '15.01.03',
-      title:
-        'Оснащение средствами автоматизации технологических процессов и производств (по отраслям)',
-      yearsToStudy: 4,
-      stateFundedPlacecesCounter: 30,
-      stateAccreditation: true,
-      desc:
-        'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает более или менее стандартное заполнение шаблона',
-      prospects:
-        'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает более или менее стандартное заполнение шаблона',
-      documents: [
-        { title: 'Устав образовательной органицазии', link: '/' },
-        {
-          title:
-            'Положение о порядке оформления, возникновения, приостановления и прекращения отношений между колледжем и обучающимися и(или) их родителями',
-          link: '/',
-        },
-      ],
-    },
-    {
-      id: 1,
-      code: '15.01.03',
-      title: 'Прикладная информатика',
-      yearsToStudy: 4,
-      stateFundedPlacecesCounter: 30,
-      stateAccreditation: true,
-      desc:
-        'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает более или менее стандартное заполнение шаблона',
-      prospects:
-        'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает более или менее стандартное заполнение шаблона',
-      documents: [
-        { title: 'Устав образовательной органицазии', link: '/' },
-        {
-          title:
-            'Положение о порядке оформления, возникновения, приостановления и прекращения отношений между колледжем и обучающимися и(или) их родителями',
-          link: '/',
-        },
-      ],
-    },
-    {
-      id: 2,
-      code: '15.01.03',
-      title:
-        'Оснащение средствами автоматизации технологических процессов и производств (по отраслям)',
-      yearsToStudy: 4,
-      stateFundedPlacecesCounter: 30,
-      stateAccreditation: true,
-      desc:
-        'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает более или менее стандартное заполнение шаблона',
-      prospects:
-        'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает более или менее стандартное заполнение шаблона',
-      documents: [
-        { title: 'Устав образовательной органицазии', link: '/' },
-        {
-          title:
-            'Положение о порядке оформления, возникновения, приостановления и прекращения отношений между колледжем и обучающимися и(или) их родителями',
-          link: '/',
-        },
-      ],
-    },
-    {
-      id: 3,
-      code: '15.01.03',
-      title: 'Прикладная информатика',
-      yearsToStudy: 4,
-      stateFundedPlacecesCounter: 30,
-      stateAccreditation: true,
-      desc:
-        'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает более или менее стандартное заполнение шаблона',
-      prospects:
-        'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает более или менее стандартное заполнение шаблона',
-      documents: [
-        { title: 'Устав образовательной органицазии', link: '/' },
-        {
-          title:
-            'Положение о порядке оформления, возникновения, приостановления и прекращения отношений между колледжем и обучающимися и(или) их родителями',
-          link: '/',
-        },
-      ],
-    },
-  ];
-
+const SpecList = ({ specialities, quantity = -1 }) => {
   function renderSpecs(specs) {
-    return specs.map((spec, index) => (
-      <div key={index + spec.code} className="specialties-list__item">
-        <div className="specialties-list__code">{spec.code}</div>
-        <h3 className="specialties-list__title">{spec.title}</h3>
-        <a className="specialties-list__link" href="#">
-          подробнее
-        </a>
-      </div>
-    ));
+    return specs.map((spec, index) => {
+      if (index < quantity) {
+        return (
+          <div key={index + spec.code} className="specialties-list__item">
+            <div className="specialties-list__code">{spec.code}</div>
+            <h3 className="specialties-list__title">{spec.title}</h3>
+            <NavLink className="specialties-list__link" to={`/specialities/${spec._id}`}>
+              подробнее
+            </NavLink>
+          </div>
+        );
+      } else if (quantity === -1) {
+        return (
+          <div key={index + spec.code} className="specialties-list__item">
+            <div className="specialties-list__code">{spec.code}</div>
+            <h3 className="specialties-list__title">{spec.title}</h3>
+            <NavLink className="specialties-list__link" to={`/specialities/${spec._id}`}>
+              подробнее
+            </NavLink>
+          </div>
+        );
+      }
+    });
   }
 
   return (
     <div className="homes-specialties__specialties-list specialties-list">
-      {renderSpecs(specialities)}
+      {specialities && renderSpecs(specialities)}
     </div>
   );
 };

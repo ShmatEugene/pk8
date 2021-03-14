@@ -190,15 +190,14 @@ const Header = (props) => {
         ) : null}
         {props.style === 2 ? (
           <div className="header__content header__content_center">
-            <h1 className="header__title header__title_center">{props.title}</h1>
+            <h1 className="header__title header__title_center">{props.title && props.title}</h1>
           </div>
         ) : null}
         {props.style === 3 ? (
           <div className="header__content header__content_left">
             <div className="header__subtitle">15.03.06</div>
             <h1 className="header__title header__title_left header__title_small">
-              Оснащение средствами автоматизации технологических процессов и производств (по
-              отраслям)
+              {props.title && props.title}
             </h1>
           </div>
         ) : null}

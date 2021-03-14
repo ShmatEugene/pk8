@@ -5,8 +5,26 @@ import Footer from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
 import Countdown from '../components/Home/Countdown';
 import SpecList from '../components/Specialities/SpecList';
+import { AuthContext } from '../context/authContext';
+import { useHttp } from '../hooks/http.hook';
 
 const Home = () => {
+  const { token } = React.useContext(AuthContext);
+  const [specialities, setSpecialities] = React.useState(null);
+  const { request, loading } = useHttp();
+
+  const getSpecialities = React.useCallback(async () => {
+    try {
+      const fetched = await request('/api/spec/', 'GET', null, {
+        Authorization: `Bearer ${token}`,
+      });
+      setSpecialities(fetched);
+    } catch (e) {}
+  }, [token, request]);
+
+  React.useEffect(() => {
+    getSpecialities();
+  }, [getSpecialities]);
   return (
     <>
       {/* Home Header */}
@@ -107,7 +125,7 @@ const Home = () => {
               В колледже реализуются 24 программы среднего профессионального образования
             </p>
           </div>
-          <SpecList></SpecList>
+          <SpecList specialities={specialities} quantity={2}></SpecList>
           <div className="home-specialties__button-block">
             <div className="sh-button home-specialties__button sh-mt-30">
               <a href="#">
