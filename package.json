@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "server": "nodemon app.js"
+    "server": "nodemon app.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -23,7 +25,8 @@
     "express": "^4.17.1",
     "express-validator": "^6.10.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.11.19"
+    "mongoose": "^5.11.19",
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
     "concurrently": "^6.0.0",

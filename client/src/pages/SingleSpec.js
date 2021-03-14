@@ -12,7 +12,7 @@ const SingleSpec = () => {
         title="Оснащение средствами автоматизации технологических процессов и производств (по
               отраслям)"
         subtitle="15.03.06"></Header>
-      <header className="header header_solid-fill">
+      {/* <header className="header header_solid-fill">
         <div className="header__header-top header-top">
           <div className="wrapper header-top__wrapper">
             <div className="header-top__contacts">
@@ -168,7 +168,7 @@ const SingleSpec = () => {
             </h1>
           </div>
         </div>
-      </header>
+      </header> */}
 
       {/* SINGLE SPEC PAGE */}
       <main>

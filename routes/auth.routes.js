@@ -16,7 +16,7 @@ router.post(
   async (req, res) => {
     try {
       const errors = validationResult(req);
-      if (!errors) {
+      if (!errors.isEmpty()) {
         return res.status(400).json({
           errors: errors.array(),
           message: 'Некорректные данные при регистрации',
@@ -57,7 +57,6 @@ router.post(
           message: 'Некорректные данные при входе в систему',
         });
       }
-
       const { email, password } = req.body;
       const user = await User.findOne({ email });
       if (!user) {
@@ -71,8 +70,9 @@ router.post(
 
       const token = jwt.sign({ userId: user.id }, config.get('jwtSecret'), { expiresIn: '1h' });
       res.json({ token, userId: user.id });
+      res.status(201);
     } catch (e) {
-      res.status(500).json({ message: 'Ошибка 500' });
+      res.status(500).json({ message: 'Ошибка 500 login' });
     }
   },
 );

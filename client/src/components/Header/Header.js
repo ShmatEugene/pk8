@@ -1,8 +1,12 @@
 import React from 'react';
+import { NavLink, useHistory } from 'react-router-dom';
+import { AuthContext } from '../../context/authContext';
 
 const Header = (props) => {
   const [isMobileMenuOpen, setMobileMenu] = React.useState(false);
   const [selectedDropdownMenu, setSelectedDropdownMenu] = React.useState(-1);
+  const auth = React.useContext(AuthContext);
+  const history = useHistory();
   const navLinks = [
     {
       id: 1,
@@ -77,6 +81,12 @@ const Header = (props) => {
     }
   };
 
+  const logoutHandler = (event) => {
+    event.preventDefault();
+    auth.logout();
+    history.push('/');
+  };
+
   function renderNavLinks(links) {
     return links.map((link, index) => (
       <li key={index + link.to}>
@@ -128,7 +138,17 @@ const Header = (props) => {
             </a>
           </div>
           <div className="header-top__login">
-            <a href="#">Войти</a>
+            {auth.isAuthenticated ? (
+              <>
+                <a onClick={logoutHandler} href="/">
+                  Выйти
+                </a>
+                <NavLink to="/account">Личный кабинет</NavLink>
+                <NavLink to="/manage-posts">админка</NavLink>
+              </>
+            ) : (
+              <NavLink to="/auth">Войти</NavLink>
+            )}
           </div>
         </div>
       </div>
