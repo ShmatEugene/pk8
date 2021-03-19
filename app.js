@@ -1,10 +1,20 @@
 const express = require('express');
 const config = require('config');
+const fileUpload = require('express-fileupload');
+const cors = require('cors');
 const mongoose = require('mongoose');
 
 const app = express();
 
+// enable files upload
+app.use(
+  fileUpload({
+    createParentPath: true,
+  }),
+);
+app.use(cors());
 app.use(express.json({ extended: true }));
+app.use('/uploads', express.static('static'));
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/spec', require('./routes/specialties.routes'));
 

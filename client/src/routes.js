@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Account from './pages/Account/Account';
 import ManagePosts from './pages/Account/ManagePosts';
+import ManageSpecs from './pages/Account/AdminPanel/ManageSpecs';
 import AdmissionsCommittee from './pages/AdmissionsCommittee';
 import AuthPage from './pages/AuthPage';
 import Documents from './pages/Documents';
@@ -11,6 +12,7 @@ import Post from './pages/Post';
 import SingleSpec from './pages/SingleSpec';
 import SpecListPage from './pages/SpecListPage';
 import Team from './pages/Team';
+import AddSpec from './pages/Account/AdminPanel/AddSpec';
 
 export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
@@ -24,6 +26,12 @@ export const useRoutes = (isAuthenticated) => {
         </Route>
         <Route path="/manage-posts" exact>
           <ManagePosts />
+        </Route>
+        <Route path="/manage-specs" exact>
+          <ManageSpecs />
+        </Route>
+        <Route path="/admin-panel/add/spec" exact>
+          <AddSpec />
         </Route>
         <Route path="/specialities" exact>
           <SpecListPage />

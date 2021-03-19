@@ -9,7 +9,7 @@ const Footer = (props) => {
             Остались вопросы? Заполните форму и специалист из приемной комиссии свяжется в вами.
           </h3>
           <form className="callback__form" action="#">
-            <input className="callback__input" type="number" placeholder="введите номер телефона" />
+            <input className="callback__input" type="text" placeholder="введите номер телефона" />
             <button className="callback__button" type="submit">
               Отправить
             </button>

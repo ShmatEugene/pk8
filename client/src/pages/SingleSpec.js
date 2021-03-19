@@ -4,6 +4,7 @@ import logo from '../assets/img/logo.png';
 import Footer from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
 import Loader from '../components/UI/Loader';
+import { API_URL } from '../config';
 import { AuthContext } from '../context/authContext';
 import { useHttp } from '../hooks/http.hook';
 
@@ -28,6 +29,20 @@ const SingleSpec = () => {
 
   if (loading) {
     return <Loader />;
+  }
+
+  function renderDocuments() {
+    return spec.documents.map((document, index) => (
+      <li className="documents-list__item">
+        <span className="documents-list__extension">{document.link.match(/\.[^/.]+$/, '')[0]}</span>
+        <a
+          className="documents-list__link"
+          href={`${API_URL}uploads/${document.link}`}
+          target="_blank">
+          {document.title.replace(/\.[^/.]+$/, '')}
+        </a>
+      </li>
+    ));
   }
 
   return (
@@ -73,22 +88,12 @@ const SingleSpec = () => {
                     <p>{spec.prospects}</p>
                   </>
                 )}
-                <h4>Документы</h4>
-                <ul className="post__documents-list documents-list">
-                  <li className="documents-list__item">
-                    <span className="documents-list__extension">pdf</span>
-                    <a className="documents-list__link" href="#">
-                      Устав образовательной организации
-                    </a>
-                  </li>
-                  <li className="documents-list__item">
-                    <div className="documents-list__extension">pdf</div>
-                    <a className="documents-list__link" href="#">
-                      Положение о порядке оформления, возникновения, приостановления и прекращения
-                      отношений между колледжем и обучающимися и(или) их родителями
-                    </a>
-                  </li>
-                </ul>
+                {spec.documents.length > 0 && (
+                  <>
+                    <h4>Документы</h4>
+                    <ul className="post__documents-list documents-list">{renderDocuments()}</ul>
+                  </>
+                )}
               </div>
               <div className="sidebar"></div>
             </div>
