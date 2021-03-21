@@ -1,4 +1,5 @@
 import React from 'react';
+import { API_URL } from '../../config';
 import Input from '../UI/Input';
 
 const DocumentCard = (props) => {
@@ -78,7 +79,14 @@ const DocumentCard = (props) => {
         multiple
         onChange={onSelectFiles}
       />
-      {selectedFile ? `Выбран файл: ${selectedFile.name}` : null}
+      <div className="document-card__file-source-name">
+        {selectedFile ? `Выбран файл: ${selectedFile.name}` : null}
+      </div>
+      {!selectedFile && props.link && props.title && props.id ? (
+        <a className="document-card__file-link" href={`${API_URL}uploads/${props.link}`}>
+          Загружен файл: {props.title}
+        </a>
+      ) : null}
     </div>
   );
 };

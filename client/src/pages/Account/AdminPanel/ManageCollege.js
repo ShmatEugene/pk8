@@ -8,38 +8,38 @@ import { useHttp } from '../../../hooks/http.hook';
 import AdminMenu from '../../../components/AdminPanel/AdminMenu';
 import AdminHeader from '../../../components/AdminPanel/AdminHeader';
 
-const ManageSpecs = () => {
+const ManageCollege = () => {
   const auth = React.useContext(AuthContext);
-  const [specialities, setSpecialities] = React.useState(null);
+  const [posts, setPosts] = React.useState(null);
   const { request, loading } = useHttp();
 
-  const getSpecialities = React.useCallback(async () => {
+  const getPosts = React.useCallback(async () => {
     try {
-      const fetched = await request('/api/spec/', 'GET', null, {
+      const fetched = await request('/api/college/', 'GET', null, {
         Authorization: `Bearer ${auth.token}`,
       });
-      setSpecialities(fetched);
+      setPosts(fetched);
     } catch (e) {}
   }, [auth.token, request]);
 
   React.useEffect(() => {
-    getSpecialities();
-  }, [getSpecialities]);
+    getPosts();
+  }, [getPosts]);
 
-  function renderSpecs(specs) {
-    return specs.map((speciality, index) => (
+  function renderPosts(posts) {
+    return posts.map((post, index) => (
       <EditLIstCard
         key={index}
-        post={speciality}
+        post={post}
         onDeletePostHandler={onDeletePostHandler}
-        postType={'spec'}
+        postType={'college'}
       />
     ));
   }
 
   const onDeletePostHandler = async (postId) => {
     try {
-      const fetched = await request(`/api/spec/delete/${postId}`, 'DELETE', null, {
+      const fetched = await request(`/api/college/delete/${postId}`, 'DELETE', null, {
         Authorization: `Bearer ${auth.token}`,
       });
       console.log(fetched);
@@ -62,9 +62,11 @@ const ManageSpecs = () => {
         </div>
         <div className="account-layout__account-content account-content">
           <div className="account-content__title">
-            <h2>Нарпавления подготовки</h2>
-            <NavLink to="/admin-panel/add/spec" className="account-content__add-button add-button">
-              Добавить новое
+            <h2>Записи в разделе Колледж</h2>
+            <NavLink
+              to="/admin-panel/add/college"
+              className="account-content__add-button add-button">
+              Добавить новую
             </NavLink>
           </div>
           <div className="account-content__edit-posts edit-posts">
@@ -81,7 +83,7 @@ const ManageSpecs = () => {
                 <rect x="0" y="258" rx="5" ry="5" width="100%" height="66" />
               </ContentLoader>
             ) : null}
-            {specialities && renderSpecs(specialities)}
+            {posts && renderPosts(posts)}
           </div>
         </div>
       </div>
@@ -89,4 +91,4 @@ const ManageSpecs = () => {
   );
 };
 
-export default ManageSpecs;
+export default ManageCollege;

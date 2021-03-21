@@ -12,7 +12,10 @@ import Post from './pages/Post';
 import SingleSpec from './pages/SingleSpec';
 import SpecListPage from './pages/SpecListPage';
 import Team from './pages/Team';
-import AddSpec from './pages/Account/AdminPanel/AddSpec';
+import EditSpec from './pages/Account/AdminPanel/EditSpec';
+import ManageCollege from './pages/Account/AdminPanel/ManageCollege';
+import EditCollege from './pages/Account/AdminPanel/EditCollege';
+import CollegePost from './pages/Posts/CollegePost';
 
 export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
@@ -27,17 +30,41 @@ export const useRoutes = (isAuthenticated) => {
         <Route path="/manage-posts" exact>
           <ManagePosts />
         </Route>
-        <Route path="/manage-specs" exact>
+        <Route path="/admin-panel/manage-specs" exact>
           <ManageSpecs />
         </Route>
         <Route path="/admin-panel/add/spec" exact>
-          <AddSpec />
+          <EditSpec />
+        </Route>
+        <Route path="/admin-panel/manage-college" exact>
+          <ManageCollege />
+        </Route>
+        <Route path="/admin-panel/add/college" exact>
+          <EditCollege />
+        </Route>
+        <Route path="/admin-panel/edit/college/:id" exact>
+          <EditCollege />
+        </Route>
+        <Route path="/admin-panel/add/edu" exact>
+          <EditSpec />
+        </Route>
+        <Route path="/admin-panel/edit/edu/:id" exact>
+          <EditSpec />
+        </Route>
+        <Route path="/admin-panel/edit/spec/:id" exact>
+          <EditSpec />
         </Route>
         <Route path="/specialities" exact>
           <SpecListPage />
         </Route>
         <Route path="/specialities/:id">
           <SingleSpec />
+        </Route>
+        <Route path="/college/:id">
+          <CollegePost />
+        </Route>
+        <Route path="/edu/:id">
+          <Post />
         </Route>
         <Redirect to="/" />
       </Switch>
@@ -59,7 +86,7 @@ export const useRoutes = (isAuthenticated) => {
         <Post />
       </Route>
       <Route path="/college/:id">
-        <Post />
+        <CollegePost />
       </Route>
       <Route path="/gallery" exact>
         <Gallery />

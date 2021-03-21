@@ -75,6 +75,7 @@ const Post = () => {
                 </tr>
               </tbody>
             </table>
+
             <Table></Table>
             <h4>СВЕДЕНИЯ О НАЛИЧИИ И УСЛОВИЯХ ПРЕДОСТАВЛЕНИЯ ОБУЧАЮЩИМСЯ СТИПЕНДИЙ</h4>
             <ul className="post__documents-list documents-list">

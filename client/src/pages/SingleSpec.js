@@ -32,8 +32,8 @@ const SingleSpec = () => {
   }
 
   function renderDocuments() {
-    return spec.documents.map((document, index) => (
-      <li className="documents-list__item">
+    return spec.documents.map((document) => (
+      <li key={document._id} className="documents-list__item">
         <span className="documents-list__extension">{document.link.match(/\.[^/.]+$/, '')[0]}</span>
         <a
           className="documents-list__link"

@@ -19,6 +19,7 @@ const Textarea = (props) => {
         name={htmlFor}
         cols={props.cols}
         rows={props.rows}
+        value={props.value}
         onChange={props.onChange}></textarea>
     </div>
   );

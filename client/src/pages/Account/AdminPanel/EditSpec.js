@@ -1,13 +1,15 @@
 import React from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useHistory, useParams } from 'react-router-dom';
 import { AuthContext } from '../../../context/authContext';
-import logo from '../../../assets/img/logo.png';
 import Modal from '../../../components/UI/Modal';
 import Input from '../../../components/UI/Input';
 import Textarea from '../../../components/UI/Textarea';
 import DocumentCard from '../../../components/AdminPanel/DocumentCard';
 import axios from 'axios';
 import { API_URL } from '../../../config';
+import { useHttp } from '../../../hooks/http.hook';
+import AdminMenu from '../../../components/AdminPanel/AdminMenu';
+import AdminHeader from '../../../components/AdminPanel/AdminHeader';
 
 //Form controls setup
 function createFormControls() {
@@ -81,12 +83,16 @@ function createFormControls() {
   };
 }
 
-const AddSpec = () => {
+const EditSpec = () => {
   const auth = React.useContext(AuthContext);
   const history = useHistory();
+  const { request } = useHttp();
   const [modalActive, setModalActive] = React.useState(false);
   const [formControls, setFormControls] = React.useState(createFormControls());
   const [isFormValid, setIsFormValid] = React.useState(false);
+  const [currentSpec, setCurrentSpec] = React.useState({});
+  const [loading, setLoading] = React.useState(false);
+  const specId = useParams().id;
   const [documents, setDocuments] = React.useState([
     {
       title: '',
@@ -117,6 +123,7 @@ const AddSpec = () => {
     return { isValid, error };
   }
 
+  //handlers
   const onInputChangeHandler = (event, controlName) => {
     const form = { ...formControls };
     const control = { ...form[controlName] };
@@ -135,6 +142,155 @@ const AddSpec = () => {
     setFormControls(form);
   };
 
+  const onDocumentTitleChangeHandler = (event, documentIndex) => {
+    const newDocuments = [...documents];
+    newDocuments[documentIndex].title = event.target.value;
+    setDocuments(newDocuments);
+  };
+
+  const onDucumentAddHandler = () => {
+    setDocuments((documents) => [...documents, { title: '', link: '/' }]);
+  };
+  const onDucumentDeleteHandler = (documentIndex) => {
+    const newDocuments = [...documents];
+    newDocuments.splice(documentIndex, 1);
+    setDocuments(newDocuments);
+  };
+
+  const onDocumentSelect = (file, documentIndex) => {
+    const newDocuments = [...documents];
+    newDocuments[documentIndex].file = file;
+    newDocuments[documentIndex].title = file.name.replace(/\.[^/.]+$/, '');
+    newDocuments[documentIndex].link = '';
+    newDocuments[documentIndex].extension = file.name.match(/\.[^/.]+$/, '')[0];
+    setDocuments(newDocuments);
+  };
+
+  //get old Speciality to Edit
+  const getCurrentSpec = React.useCallback(async () => {
+    try {
+      const fetched = await request(`/api/spec/${specId}`, 'GET', null, {
+        Authorization: `Bearer ${auth.token}`,
+      });
+      setCurrentSpec(fetched);
+
+      //set form state
+      const form = { ...formControls };
+      Object.keys(form).forEach((name) => {
+        form[name].value = fetched[name];
+        form[name].valid = true;
+        form[name].touched = true;
+      });
+
+      setFormControls(form);
+      setIsFormValid(true);
+
+      //set documents and remove extension from title
+      fetched.documents.forEach((document) => {
+        document.title = document.title.replace(/\.[^/.]+$/, '');
+      });
+      setDocuments(fetched.documents);
+    } catch (e) {}
+  }, [auth.token, specId, request]);
+
+  React.useEffect(() => {
+    if (specId) {
+      getCurrentSpec();
+    }
+  }, [getCurrentSpec]);
+
+  //post new Speciality
+  const onSendClickHandler = async () => {
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      let specialityFields = {};
+      for (let key in formControls) {
+        let value = formControls[key].value;
+        specialityFields[key] = value;
+
+        formData.append(`${key}`, value);
+      }
+
+      documents.forEach((document, index) => {
+        if (document.file) {
+          if (document.title === '') {
+            document.title = document.file.name.replace(/\.[^/.]+$/, '');
+          }
+          formData.append(`file_${index}`, document.file, document.title + document.extension);
+        }
+      });
+
+      const data = await axios.post(`${API_URL}api/spec/add`, formData, {
+        headers: { Authorization: `Bearer ${auth.token}` },
+      });
+      console.log(data);
+      setLoading(false);
+      history.push(`/admin-panel/edit/spec/${data.data.spec._id}`);
+    } catch (e) {
+      setLoading(false);
+      console.log(e);
+    }
+  };
+
+  //update Speciality
+  const onUpdateClickHandler = async () => {
+    try {
+      setLoading(true);
+      const formData = new FormData();
+
+      for (let key in formControls) {
+        let value = formControls[key].value;
+        if (formControls[key].value !== currentSpec[key]) {
+          formData.append(`${key}`, value);
+        }
+      }
+
+      currentSpec.documents.forEach((document, index) => {});
+      let linkId = 0;
+      let fileId = 0;
+      documents.forEach((document) => {
+        if (document.link) {
+          formData.append(`file-link_${linkId}`, document.link);
+          formData.append(
+            `file-title_${linkId}`,
+            document.title + document.link.match(/\.[^/.]+$/, '')[0],
+          );
+          linkId++;
+        } else if (document.file) {
+          if (document.title === '') {
+            document.title = document.file.name.replace(/\.[^/.]+$/, '');
+          }
+          formData.append(`file_${fileId}`, document.file, document.title + document.extension);
+          fileId++;
+        }
+      });
+
+      const data = await axios.put(`${API_URL}api/spec/edit/${specId}`, formData, {
+        headers: { Authorization: `Bearer ${auth.token}` },
+      });
+
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+      console.log(e);
+    }
+  };
+
+  //delete spec
+  const onDeletePostHandler = async (postId) => {
+    try {
+      const fetched = await request(`/api/spec/delete/${postId}`, 'DELETE', null, {
+        Authorization: `Bearer ${auth.token}`,
+      });
+      history.push('/admin-panel/manage-specs');
+      console.log(fetched);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  //render functions
   function renderInputs() {
     return Object.keys(formControls).map((controlName, index) => {
       const control = formControls[controlName];
@@ -158,7 +314,7 @@ const AddSpec = () => {
           <Input
             label={control.label}
             placeholder={control.placeholder}
-            value={control.value}
+            value={control.value || ''}
             type={control.type}
             classes={['post-fields__input']}
             errorMessage={control.errorMessage}
@@ -173,64 +329,14 @@ const AddSpec = () => {
     });
   }
 
-  const onDocumentTitleChangeHandler = (event, documentIndex) => {
-    const newDocuments = [...documents];
-    newDocuments[documentIndex].title = event.target.value;
-    setDocuments(newDocuments);
-  };
-
-  const onDucumentAddHandler = () => {
-    setDocuments((documents) => [...documents, { title: '', uid: '', link: '/' }]);
-  };
-  const onDucumentDeleteHandler = (documentIndex) => {
-    const newDocuments = [...documents];
-    newDocuments.splice(documentIndex, 1);
-    setDocuments(newDocuments);
-  };
-
-  const onDocumentSelect = (file, documentIndex) => {
-    const newDocuments = [...documents];
-    newDocuments[documentIndex].file = file;
-    newDocuments[documentIndex].title = file.name.replace(/\.[^/.]+$/, '');
-    newDocuments[documentIndex].extension = file.name.match(/\.[^/.]+$/, '')[0];
-    setDocuments(newDocuments);
-  };
-
-  const onSendClickHandler = async () => {
-    try {
-      const formData = new FormData();
-      let specialityFields = {};
-      for (let key in formControls) {
-        let value = formControls[key].value;
-        specialityFields[key] = value;
-
-        formData.append(`${key}`, value);
-      }
-
-      documents.forEach((document, index) => {
-        if (document.file) {
-          if (document.title === '') {
-            document.title = document.file.name.replace(/\.[^/.]+$/, '');
-          }
-          formData.append(`file_${index}`, document.file, document.title + document.extension);
-        }
-      });
-
-      const data = await axios.post(`${API_URL}api/spec/add`, formData, {
-        headers: { Authorization: `Bearer ${auth.token}` },
-      });
-      console.log(data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   function renderDocuments() {
     return documents.map((document, index) => (
       <DocumentCard
         onTitleChangeHandler={onDocumentTitleChangeHandler}
         index={index}
         title={document.title}
+        link={document.link}
+        id={document._id || ''}
         key={index}
         onDucumentDeleteHandler={onDucumentDeleteHandler}
         onDocumentSelect={onDocumentSelect}
@@ -242,81 +348,63 @@ const AddSpec = () => {
   return (
     <>
       {/* Header */}
-      <header className="account-header">
-        <NavLink to="/" className="account-header__logo">
-          <img src={logo} alt="logo" />
-        </NavLink>
-        <div className="account-header__wrapper">
-          <nav className="account-header__nav">
-            <ul>
-              <li>
-                <NavLink
-                  to="/admin-panel"
-                  className="account-header__nav-link account-header__nav-link_active">
-                  Панель администратора
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/" className="account-header__nav-link">
-                  Личный кабинет
-                </NavLink>
-              </li>
-            </ul>
-          </nav>
-          <div className="account-header__user">
-            <div className="account-header__email">shmat.evg@yandex.ru</div>
-            <div className="account-header__logout">
-              <a onClick={logoutHandler} href="/">
-                Выйти
-              </a>
-            </div>
-          </div>
-        </div>
-      </header>
+      <AdminHeader />
 
       {/* Account */}
       <div className="account-layout">
         <div className="account-layout__account-menu account-menu">
           <nav className="account-menu__nav">
-            <ul>
-              <li>
-                <NavLink to="/" className="account-menu__link account-menu__link_active">
-                  Пользователи
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/" className="account-menu__link ">
-                  Нарпавления подготовки
-                </NavLink>
-              </li>
-            </ul>
+            <AdminMenu />
           </nav>
         </div>
         <div className="account-layout__account-content account-content">
           <div className="account-content__title account-content__title_column">
-            <h2>Добавить запись</h2>
+            <h2>{specId && currentSpec ? currentSpec.title : 'Добавить запись'}</h2>
             <p className="account-content__subtitle">Направление подготовки</p>
           </div>
           <div className="account-content__actions">
             <div className="account-content__publish-post">
-              <button
-                onClick={onSendClickHandler}
-                disabled={!isFormValid}
-                type="button"
-                className="add-button">
-                Опубликовать
-              </button>
+              {specId ? (
+                <button
+                  onClick={onUpdateClickHandler}
+                  disabled={!isFormValid || loading}
+                  type="button"
+                  className="add-button">
+                  {loading ? '...' : 'Обновить'}
+                </button>
+              ) : (
+                <button
+                  onClick={onSendClickHandler}
+                  disabled={!isFormValid || loading}
+                  type="button"
+                  className="add-button">
+                  {loading ? '...' : 'Опубликовать'}
+                </button>
+              )}
             </div>
-            <div className="account-content__delete-post">
-              <button onClick={() => setModalActive(true)} type="button" className="delete-button">
-                Удалить
-              </button>
-            </div>
+            {specId && (
+              <div className="account-content__delete-post">
+                <button
+                  onClick={() => setModalActive(true)}
+                  type="button"
+                  className="delete-button">
+                  Удалить
+                </button>
+              </div>
+            )}
+            {specId && (
+              <div className="account-content__post-link">
+                <NavLink to={`/specialities/${specId}`}>Ссылка на страницу</NavLink>
+              </div>
+            )}
             <Modal active={modalActive} setActive={setModalActive}>
               <div className="delete-modal">
                 <h4>Удалить запись</h4>
                 <p>После завершения это действие невозможно отменить.</p>
-                <button type="button" className="delete-modal__delete-button delete-button">
+                <button
+                  onClick={() => onDeletePostHandler(specId)}
+                  type="button"
+                  className="delete-modal__delete-button delete-button">
                   Удалить
                 </button>
                 <button
@@ -345,4 +433,4 @@ const AddSpec = () => {
   );
 };
 
-export default AddSpec;
+export default EditSpec;

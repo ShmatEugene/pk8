@@ -1,86 +1,78 @@
 const { Router } = require('express');
 const config = require('config');
-const Speciality = require('../models/Speciality');
+const College = require('../models/CollegePost');
 const auth = require('../middleware/auth.middleware');
 const router = Router();
 const Uuid = require('uuid');
 const moment = require('moment');
 
-// /api/spec/add
+// /api/college/add
 router.post('/add', auth, async (req, res) => {
   try {
-    console.log(req.files);
-    console.log(req.body);
-
     const files = req.files;
-    const specialityFields = req.body;
+    const fields = req.body;
 
-    const spec = new Speciality({
-      code: specialityFields.code,
-      title: specialityFields.title,
+    const collegePost = new College({
+      title: fields.title,
       published: moment().format('DD.MM.YYYY'),
-      yearsToStudy: specialityFields.yearsToStudy,
-      stateFundedPlacecesCounter: specialityFields.stateFundedPlacecesCounter,
-      stateAccreditation: true,
-      desc: specialityFields.desc,
-      prospects: specialityFields.prospects,
+      clicks: 0,
+      editorData: fields.editorData,
       documents: [],
     });
 
     for (file in files) {
       const fileName = Uuid.v4() + files[file].name.match(/\.[^/.]+$/, '');
       files[file].mv(config.get('staticPath') + '\\' + fileName);
-      spec.documents.push({ link: fileName, title: files[file].name });
+      collegePost.documents.push({ link: fileName, title: files[file].name });
     }
 
-    console.log(spec);
-    await spec.save();
-    return res.status(201).json({ spec });
+    console.log(collegePost);
+    await collegePost.save();
+    return res.status(201).json({ collegePost });
   } catch (e) {
     console.log(e);
     res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
   }
 });
 
-// /api/spec/
+// /api/college/
 router.get('/', async (req, res) => {
   try {
-    const specs = await Speciality.find();
-    res.json(specs);
+    const collegePosts = await College.find();
+    res.json(collegePosts);
   } catch (e) {
     res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
   }
 });
 
-// /api/spec/:id
+// /api/college/:id
 router.get('/:id', async (req, res) => {
   try {
-    const spec = await Speciality.findById(req.params.id);
-
-    if (spec) {
-      spec.clicks ? spec.clicks++ : (spec.clicks = 1);
-      spec.save();
+    const collegePost = await College.findById(req.params.id);
+    if (collegePost) {
+      collegePost.clicks ? collegePost.clicks++ : (collegePost.clicks = 1);
+      collegePost.save();
     }
 
-    res.json(spec);
+    res.json(collegePost);
   } catch (e) {
     res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
   }
 });
 
-// /api/spec/delete/:id
+// /api/college/delete/:id
 router.delete('/delete/:id', auth, async (req, res) => {
   try {
     const id = req.params.id;
-    const spec = await Speciality.findById(id).remove();
-    res.json({ spec });
+    const collegePost = await College.findById(id).remove();
+    res.json({ collegePost });
   } catch (e) {
     console.log(e);
     res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
   }
 });
 
-// /api/spec/edit/:id
+// /api/college/edit/:id
 router.put('/edit/:id', auth, async (req, res) => {
   try {
     console.log(req.files);
@@ -89,13 +81,13 @@ router.put('/edit/:id', auth, async (req, res) => {
     const fields = req.body;
     const files = req.files;
     const id = req.params.id;
-    const spec = await Speciality.findById(id);
+    const collegePost = await College.findById(id);
     const numberOfChangeableFields = Object.keys(fields).length;
 
-    spec.documents = [];
+    collegePost.documents = [];
     for (let i = 0; i < numberOfChangeableFields; i++) {
       if (fields[`file-link_${i}`]) {
-        spec.documents.push({
+        collegePost.documents.push({
           link: fields[`file-link_${i}`],
           title: fields[`file-title_${i}`],
         });
@@ -109,16 +101,16 @@ router.put('/edit/:id', auth, async (req, res) => {
     for (file in files) {
       const fileName = Uuid.v4() + files[file].name.match(/\.[^/.]+$/, '');
       files[file].mv(config.get('staticPath') + '\\' + fileName);
-      spec.documents.push({ link: fileName, title: files[file].name });
+      collegePost.documents.push({ link: fileName, title: files[file].name });
     }
 
     for (changableField in fields) {
-      spec[changableField] = fields[changableField];
+      collegePost[changableField] = fields[changableField];
     }
-    await spec.save();
-    console.log(spec);
+    await collegePost.save();
+    console.log(collegePost);
 
-    return res.status(201).json({ spec });
+    return res.status(201).json({ collegePost });
   } catch (e) {
     console.log(e);
     res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
