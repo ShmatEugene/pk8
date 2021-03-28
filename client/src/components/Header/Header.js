@@ -1,80 +1,102 @@
 import React from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../context/authContext';
+import { useHttp } from '../../hooks/http.hook';
 
 const Header = (props) => {
   const [isMobileMenuOpen, setMobileMenu] = React.useState(false);
   const [selectedDropdownMenu, setSelectedDropdownMenu] = React.useState(-1);
+  const [fetchedLinks, setFetchedLinks] = React.useState(null);
   const auth = React.useContext(AuthContext);
   const history = useHistory();
-  const navLinks = [
-    {
-      id: 1,
-      selected: false,
-      to: '/',
-      label: 'Колледж',
-      exact: true,
-      submenu: [
-        {
-          to: '/',
-          label: 'Структура и органы управления образовательной организацией',
-          exact: true,
-        },
-        { to: '/', label: 'Заказать справку об обучении', exact: true },
-        { to: '/', label: 'Документы', exact: true },
-        { to: '/', label: 'Стипендии', exact: true },
-        { to: '/', label: 'Галерея', exact: true },
-      ],
-    },
-    {
-      id: 2,
-      selected: false,
-      to: '/',
-      label: 'Образование',
-      exact: true,
-      submenu: [
-        {
-          to: '/',
-          label: 'Структура и органы управления образовательной организацией',
-          exact: true,
-        },
-        { to: '/', label: 'Образовательные программы', exact: true },
-        { to: '/', label: 'Педагогический состав', exact: true },
-        { to: '/', label: 'Платные образовательные услуги', exact: true },
-        { to: '/', label: 'Вакантные места для перевода', exact: true },
-        { to: '/', label: 'Дополнительное образование', exact: true },
-        { to: '/', label: 'Дистанционное образование', exact: true },
-        { to: '/', label: 'Расписание занятий', exact: true },
-        { to: '/', label: 'Образовательные стандарты', exact: true },
-      ],
-    },
-    {
-      id: 3,
-      selected: false,
-      to: '/',
-      label: 'Поступление',
-      exact: true,
-      submenu: [
-        {
-          to: '/',
-          label: 'Структура и органы управления образовательной организацией',
-          exact: true,
-        },
-        { to: '/', label: 'Заказать справку об обучении', exact: true },
-        { to: '/', label: 'Документы', exact: true },
-        { to: '/', label: 'Стипендии', exact: true },
-        { to: '/', label: 'Галерея', exact: true },
-      ],
-    },
-    { id: 4, selected: false, to: '/', label: 'Новости', exact: true, submenu: null },
-  ];
+  const { request, loading } = useHttp();
+
+  const getLinks = React.useCallback(async () => {
+    try {
+      const fetchedCollegeLinks = await request('/api/college/', 'GET');
+
+      let link = {
+        to: '/',
+        label: 'Колледж',
+        submenu: [],
+      };
+      const newFetchedLinks = [];
+      fetchedCollegeLinks.forEach((post) => {
+        if (post._id && post.title) {
+          link.submenu.push({
+            to: `/college/${post._id}`,
+            label: post.title,
+          });
+        }
+      });
+      link.submenu.push({
+        to: `/documents`,
+        label: 'Документы',
+      });
+      newFetchedLinks.push(link);
+
+      const fetchedEduLinks = await request('/api/edu/', 'GET');
+
+      link = {
+        to: '/',
+        label: 'Образование',
+        submenu: [],
+      };
+
+      fetchedEduLinks.forEach((post) => {
+        if (post._id && post.title) {
+          link.submenu.push({
+            to: `/edu/${post._id}`,
+            label: post.title,
+          });
+        }
+      });
+      newFetchedLinks.push(link);
+
+      const fetchedAbitLinks = await request('/api/abit/', 'GET');
+
+      link = {
+        to: '/',
+        label: 'Поступление',
+        submenu: [],
+      };
+
+      fetchedAbitLinks.forEach((post) => {
+        if (post._id && post.title) {
+          link.submenu.push({
+            to: `/abit/${post._id}`,
+            label: post.title,
+          });
+        }
+      });
+      link.submenu.push({
+        to: `/abit/admission-committee`,
+        label: 'Контакты приемной комиссии',
+      });
+      link.submenu.push({
+        to: `/specialities`,
+        label: 'Направления подготовки',
+      });
+      newFetchedLinks.push(link);
+
+      newFetchedLinks.push({ to: '/news', label: 'Новости', submenu: null });
+
+      setFetchedLinks(newFetchedLinks);
+    } catch (e) {
+      console.log(e);
+    }
+  }, [request]);
+
+  React.useEffect(() => {
+    getLinks();
+  }, [getLinks]);
 
   const hamburgerClickHanlder = () => {
     setMobileMenu(!isMobileMenuOpen);
   };
 
   const dropdownMenuClickHandler = (navLinkIndex) => {
-    if (navLinks[navLinkIndex].submenu && selectedDropdownMenu !== navLinkIndex) {
+    if (fetchedLinks[navLinkIndex].submenu && selectedDropdownMenu !== navLinkIndex) {
       setSelectedDropdownMenu(navLinkIndex);
     } else if (selectedDropdownMenu === navLinkIndex) {
       setSelectedDropdownMenu(-1);
@@ -94,13 +116,13 @@ const Header = (props) => {
           className={`header-nav__menu-item  ${
             selectedDropdownMenu === index ? 'header-nav__menu-item_active' : ''
           }`}>
-          <a
+          <NavLink
             onClick={() => dropdownMenuClickHandler(index)}
             className="header-nav__menu-link"
-            href="#">
+            to={link.to}>
             {link.label}
             {link.submenu && <i className="fi-rr-angle-small-down"></i>}
-          </a>
+          </NavLink>
           <div className="header-nav__dropdown-munu-arrow"></div>
           {link.submenu && (
             <div
@@ -110,9 +132,9 @@ const Header = (props) => {
               <ul className="header-nav__dropdown-list">
                 {link.submenu.map((submenuLink, subIndex) => (
                   <li key={index + ' ' + subIndex + link.to}>
-                    <a className="header-nav__dropdown-link" href="#">
+                    <NavLink className="header-nav__dropdown-link" to={submenuLink.to}>
                       {submenuLink.label}
-                    </a>
+                    </NavLink>
                   </li>
                 ))}
               </ul>
@@ -143,8 +165,8 @@ const Header = (props) => {
                 <a onClick={logoutHandler} href="/">
                   Выйти
                 </a>
-                <NavLink to="/account">Личный кабинет</NavLink>
-                <NavLink to="/manage-posts">админка</NavLink>
+                {/* <NavLink to="/account">Личный кабинет</NavLink> */}
+                <NavLink to="/admin-panel/manage-news">Панель администратора</NavLink>
               </>
             ) : (
               <NavLink to="/auth">Войти</NavLink>
@@ -160,7 +182,9 @@ const Header = (props) => {
             </a>
           </div>
           <div className={`header-nav__menu ${isMobileMenuOpen && 'header-nav__menu_active'}`}>
-            <ul className="header-nav__menu-list">{renderNavLinks(navLinks)}</ul>
+            <ul className="header-nav__menu-list">
+              {fetchedLinks ? renderNavLinks(fetchedLinks) : null}
+            </ul>
           </div>
           <div onClick={hamburgerClickHanlder} className="hamburger header-nav__hamburger">
             <span className="hamburger__outer">

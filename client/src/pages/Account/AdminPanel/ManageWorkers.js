@@ -8,14 +8,14 @@ import { useHttp } from '../../../hooks/http.hook';
 import AdminMenu from '../../../components/AdminPanel/AdminMenu';
 import AdminHeader from '../../../components/AdminPanel/AdminHeader';
 
-const ManageCollege = () => {
+const ManageWorkers = () => {
   const auth = React.useContext(AuthContext);
   const [posts, setPosts] = React.useState(null);
   const { request, loading } = useHttp();
 
   const getPosts = React.useCallback(async () => {
     try {
-      const fetched = await request('/api/college/', 'GET', null, {
+      const fetched = await request('/api/worker/', 'GET', null, {
         Authorization: `Bearer ${auth.token}`,
       });
       setPosts(fetched);
@@ -32,14 +32,14 @@ const ManageCollege = () => {
         key={index}
         post={post}
         onDeletePostHandler={onDeletePostHandler}
-        postType={'college'}
+        postType={'worker'}
       />
     ));
   }
 
   const onDeletePostHandler = async (postId) => {
     try {
-      const fetched = await request(`/api/college/delete/${postId}`, 'DELETE', null, {
+      const fetched = await request(`/api/worker/delete/${postId}`, 'DELETE', null, {
         Authorization: `Bearer ${auth.token}`,
       });
       console.log(fetched);
@@ -62,16 +62,16 @@ const ManageCollege = () => {
         </div>
         <div className="account-layout__account-content account-content">
           <div className="account-content__title">
-            <h2>Записи в разделе Колледж</h2>
+            <h2>Работники</h2>
             <NavLink
-              to="/admin-panel/add/college"
+              to="/admin-panel/add/worker"
               className="account-content__add-button add-button">
-              Добавить новую
+              Добавить
             </NavLink>
           </div>
           <div className="account-content__edit-posts edit-posts">
             <div className="edit-posts__header">
-              <h4 className="edit-posts__heading-title">назавание</h4>
+              <h4 className="edit-posts__heading-title">ФИО</h4>
               <h4 className="edit-posts__heading-published">опубликовано</h4>
               <h4 className="edit-posts__heading-clicks">клики</h4>
             </div>
@@ -91,4 +91,4 @@ const ManageCollege = () => {
   );
 };
 
-export default ManageCollege;
+export default ManageWorkers;

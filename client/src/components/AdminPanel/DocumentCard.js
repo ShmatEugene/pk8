@@ -78,6 +78,7 @@ const DocumentCard = (props) => {
         type="file"
         multiple
         onChange={onSelectFiles}
+        accept={props.accept && props.accept}
       />
       <div className="document-card__file-source-name">
         {selectedFile ? `Выбран файл: ${selectedFile.name}` : null}

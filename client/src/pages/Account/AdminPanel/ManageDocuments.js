@@ -8,14 +8,14 @@ import { useHttp } from '../../../hooks/http.hook';
 import AdminMenu from '../../../components/AdminPanel/AdminMenu';
 import AdminHeader from '../../../components/AdminPanel/AdminHeader';
 
-const ManageCollege = () => {
+const ManageDocuments = () => {
   const auth = React.useContext(AuthContext);
   const [posts, setPosts] = React.useState(null);
   const { request, loading } = useHttp();
 
   const getPosts = React.useCallback(async () => {
     try {
-      const fetched = await request('/api/college/', 'GET', null, {
+      const fetched = await request('/api/documents/', 'GET', null, {
         Authorization: `Bearer ${auth.token}`,
       });
       setPosts(fetched);
@@ -32,14 +32,14 @@ const ManageCollege = () => {
         key={index}
         post={post}
         onDeletePostHandler={onDeletePostHandler}
-        postType={'college'}
+        postType={'documents'}
       />
     ));
   }
 
   const onDeletePostHandler = async (postId) => {
     try {
-      const fetched = await request(`/api/college/delete/${postId}`, 'DELETE', null, {
+      const fetched = await request(`/api/documents/delete/${postId}`, 'DELETE', null, {
         Authorization: `Bearer ${auth.token}`,
       });
       console.log(fetched);
@@ -62,9 +62,9 @@ const ManageCollege = () => {
         </div>
         <div className="account-layout__account-content account-content">
           <div className="account-content__title">
-            <h2>Записи в разделе Колледж</h2>
+            <h2>Записи в разделе Образование</h2>
             <NavLink
-              to="/admin-panel/add/college"
+              to="/admin-panel/add/documents"
               className="account-content__add-button add-button">
               Добавить новую
             </NavLink>
@@ -91,4 +91,4 @@ const ManageCollege = () => {
   );
 };
 
-export default ManageCollege;
+export default ManageDocuments;

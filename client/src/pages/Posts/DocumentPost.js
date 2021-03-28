@@ -9,7 +9,7 @@ import DocsList from '../../components/UI/DocsList';
 import BulletList from '../../components/UI/BulletList';
 import Footer from '../../components/Footer/Footer';
 
-const CollegePost = () => {
+const DocumentPost = () => {
   const auth = React.useContext(AuthContext);
   const history = useHistory();
   const { request } = useHttp();
@@ -19,8 +19,8 @@ const CollegePost = () => {
 
   const getCurrentPost = React.useCallback(async () => {
     try {
-      const fetched = await request(`/api/college/${postId}`, 'GET');
-      console.log(JSON.parse(fetched.editorData));
+      const fetched = await request(`/api/documents/${postId}`, 'GET');
+
       setPost(fetched);
       setDocuments(fetched.documents);
     } catch (e) {
@@ -79,4 +79,4 @@ const CollegePost = () => {
   );
 };
 
-export default CollegePost;
+export default DocumentPost;

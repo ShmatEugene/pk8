@@ -4,6 +4,11 @@ import { NavLink } from 'react-router-dom';
 const AdminMenu = () => {
   const navLinks = [
     {
+      to: '/admin-panel/manage-news',
+      label: 'Новости',
+      exact: true,
+    },
+    {
       to: '/admin-panel/manage-users',
       label: 'Пользователи',
       exact: true,
@@ -21,6 +26,21 @@ const AdminMenu = () => {
     {
       to: '/admin-panel/manage-edu',
       label: 'Образование',
+      exact: true,
+    },
+    {
+      to: '/admin-panel/manage-abit',
+      label: 'Поступающим',
+      exact: true,
+    },
+    {
+      to: '/admin-panel/manage-documents',
+      label: 'Документы',
+      exact: true,
+    },
+    {
+      to: '/admin-panel/manage-workers',
+      label: 'Сотрудники',
       exact: true,
     },
   ];

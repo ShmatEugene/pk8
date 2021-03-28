@@ -1,6 +1,86 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+import logo from '../../assets/img/logo.png';
+import { useHttp } from '../../hooks/http.hook';
 
 const Footer = (props) => {
+  const { request, loading } = useHttp();
+  const [collegeLinks, setCollegeLinks] = React.useState(null);
+  const [eduLinks, setEduLinks] = React.useState(null);
+  const [abitLinks, setAbitLinks] = React.useState(null);
+  const [newsLinks, setNewsLinks] = React.useState(null);
+
+  const getLinks = React.useCallback(async () => {
+    try {
+      const fetchedCollegeLinks = await request('/api/college/', 'GET');
+      const fetchedEduLinks = await request('/api/edu/', 'GET');
+      const fetchedAbitLinks = await request('/api/abit/', 'GET');
+      const fetchedNewsLinks = await request('/api/news/', 'GET');
+
+      let links = [];
+      fetchedCollegeLinks.forEach((post) => {
+        if (post._id && post.title) {
+          links.push({
+            to: `/college/${post._id}`,
+            label: post.title,
+          });
+        }
+      });
+      links.push({
+        to: `/documents`,
+        label: 'Документы',
+      });
+      setCollegeLinks(links);
+
+      links = [];
+      fetchedEduLinks.forEach((post) => {
+        if (post._id && post.title) {
+          links.push({
+            to: `/edu/${post._id}`,
+            label: post.title,
+          });
+        }
+      });
+      setEduLinks(links);
+
+      links = [];
+      fetchedAbitLinks.forEach((post) => {
+        if (post._id && post.title) {
+          links.push({
+            to: `/abit/${post._id}`,
+            label: post.title,
+          });
+        }
+      });
+      setAbitLinks(links);
+
+      links = [];
+      fetchedNewsLinks.forEach((post, index) => {
+        if (post._id && post.title && index < 4) {
+          links.push({
+            to: `/news/${post._id}`,
+            label: post.title,
+          });
+        }
+      });
+      setNewsLinks(links);
+    } catch (e) {
+      console.log(e);
+    }
+  }, [request]);
+
+  React.useEffect(() => {
+    getLinks();
+  }, [getLinks]);
+
+  function renderLinks(links) {
+    return links.map((link, index) => (
+      <li key={index}>
+        <NavLink to={link.to}>{link.label}</NavLink>
+      </li>
+    ));
+  }
+
   return (
     <footer className="footer overview-block-pt">
       <div className="wrapper footer__wrappper">
@@ -18,7 +98,7 @@ const Footer = (props) => {
         <div className="footer__content">
           <div className="footer__info">
             <div className="footer__logo">
-              <img src={props.logo} alt="logo" />
+              <img src={props.logo || logo} alt="logo" />
             </div>
             <p className="footer__text">
               Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает
@@ -65,83 +145,19 @@ const Footer = (props) => {
         <div className="footer__nav">
           <div className="footer__nav-column">
             <h3>Колледж</h3>
-            <ul className="footer__nav-list">
-              <li>
-                <a href="#">Структура и органы управления образовательной организацией</a>
-              </li>
-              <li>
-                <a href="#">Заказать справку об обучении</a>
-              </li>
-              <li>
-                <a href="#">Документы</a>
-              </li>
-              <li>
-                <a href="#">Стипендии</a>
-              </li>
-              <li>
-                <a href="#">Галерея</a>
-              </li>
-            </ul>
+            <ul className="footer__nav-list">{collegeLinks ? renderLinks(collegeLinks) : null}</ul>
           </div>
           <div className="footer__nav-column">
             <h3>Образование</h3>
-            <ul className="footer__nav-list">
-              <li>
-                <a href="#">Структура и органы управления образовательной организацией</a>
-              </li>
-              <li>
-                <a href="#">Заказать справку об обучении</a>
-              </li>
-              <li>
-                <a href="#">Документы</a>
-              </li>
-              <li>
-                <a href="#">Стипендии</a>
-              </li>
-              <li>
-                <a href="#">Галерея</a>
-              </li>
-            </ul>
+            <ul className="footer__nav-list">{eduLinks && renderLinks(eduLinks)}</ul>
           </div>
           <div className="footer__nav-column">
             <h3>Поступление</h3>
-            <ul className="footer__nav-list">
-              <li>
-                <a href="#">Структура и органы управления образовательной организацией</a>
-              </li>
-              <li>
-                <a href="#">Заказать справку об обучении</a>
-              </li>
-              <li>
-                <a href="#">Документы</a>
-              </li>
-              <li>
-                <a href="#">Стипендии</a>
-              </li>
-              <li>
-                <a href="#">Галерея</a>
-              </li>
-            </ul>
+            <ul className="footer__nav-list">{abitLinks && renderLinks(abitLinks)}</ul>
           </div>
           <div className="footer__nav-column">
             <h3>Новости</h3>
-            <ul className="footer__nav-list">
-              <li>
-                <a href="#">Структура и органы управления образовательной организацией</a>
-              </li>
-              <li>
-                <a href="#">Заказать справку об обучении</a>
-              </li>
-              <li>
-                <a href="#">Документы</a>
-              </li>
-              <li>
-                <a href="#">Стипендии</a>
-              </li>
-              <li>
-                <a href="#">Галерея</a>
-              </li>
-            </ul>
+            <ul className="footer__nav-list">{newsLinks && renderLinks(newsLinks)}</ul>
           </div>
         </div>
       </div>

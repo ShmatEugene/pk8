@@ -1,254 +1,81 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import logo from '../assets/img/logo.png';
+import Header from '../components/Header/Header';
+import { useHttp } from '../hooks/http.hook';
 
 const Documents = () => {
+  const [posts, setPosts] = React.useState(null);
+  const { request, loading } = useHttp();
+
+  const getPosts = React.useCallback(async () => {
+    try {
+      const fetched = await request('/api/documents/', 'GET');
+      setPosts(fetched);
+    } catch (e) {}
+  }, [request]);
+
+  React.useEffect(() => {
+    getPosts();
+  }, [getPosts]);
+
+  function renderDocuments1(documents) {
+    return documents.map((document, index) => {
+      if (index % 3 === 0) {
+        return (
+          <li key={document._id}>
+            <NavLink className="documents-nav__link" to={`/documents/${document._id}`}>
+              {document.title && document.title}
+            </NavLink>
+          </li>
+        );
+      }
+    });
+  }
+  function renderDocuments2(documents) {
+    return documents.map((document, index) => {
+      if (index % 3 === 1) {
+        return (
+          <li key={document._id}>
+            <NavLink className="documents-nav__link" to={`/documents/${document._id}`}>
+              {document.title && document.title}
+            </NavLink>
+          </li>
+        );
+      }
+    });
+  }
+  function renderDocuments3(documents) {
+    return documents.map((document, index) => {
+      if (index % 3 === 2) {
+        return (
+          <li key={document._id}>
+            <NavLink className="documents-nav__link" to={`/documents/${document._id}`}>
+              {document.title && document.title}
+            </NavLink>
+          </li>
+        );
+      }
+    });
+  }
+
   return (
     <>
       {/* Header */}
-      <header className="header header_solid-fill">
-        <div className="header__header-top header-top">
-          <div className="wrapper header-top__wrapper">
-            <div className="header-top__contacts">
-              <a className="header-top__phone" href="tel:74955556677">
-                <i className="fi-rr-smartphone"></i>
-                <span>8 495 555 66 77</span>
-              </a>
-              <a className="header-top__mail" href="mailto:info@pk8.ru">
-                <i className="fi-rr-envelope"></i>
-                <span>info@pk8.ru</span>
-              </a>
-            </div>
-            <div className="header-top__login">
-              <a href="#">Войти</a>
-            </div>
-          </div>
-        </div>
-        <div className="wrapper">
-          <div className="header__header-nav header-nav">
-            <div className="header-nav__logo">
-              <a href="/">
-                <img src={logo} alt="logo" />
-              </a>
-            </div>
-            <div className="header-nav__menu">
-              <ul className="header-nav__menu-list">
-                <li>
-                  <div className="header-nav__menu-item">
-                    <a className="header-nav__menu-link" href="#">
-                      Колледж <i className="fi-rr-angle-small-down"></i>
-                    </a>
-                    <div className="header-nav__dropdown-munu-arrow"></div>
-                    <div className="header-nav__dropdown-menu">
-                      <ul className="header-nav__dropdown-list">
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Структура и органы управления образовательной организацией
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Заказать справку об обучении
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Документы
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Стипендии
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Галерея
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="header-nav__menu-item">
-                    <a className="header-nav__menu-link" href="#">
-                      Образование <i className="fi-rr-angle-small-down"></i>
-                    </a>
-                    <div className="header-nav__dropdown-munu-arrow"></div>
-                    <div className="header-nav__dropdown-menu">
-                      <ul className="header-nav__dropdown-list">
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Структура и органы управления образовательной организацией
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Заказать справку об обучении
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Документы
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Стипендии
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Галерея
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="header-nav__menu-item">
-                    <a className="header-nav__menu-link" href="#">
-                      Поступление <i className="fi-rr-angle-small-down"></i>
-                    </a>
-                    <div className="header-nav__dropdown-munu-arrow"></div>
-                    <div className="header-nav__dropdown-menu">
-                      <ul className="header-nav__dropdown-list">
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Структура и органы управления образовательной организацией
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Заказать справку об обучении
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Документы
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Стипендии
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Галерея
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="header-nav__menu-item">
-                    <a className="header-nav__menu-link" href="#">
-                      Новости
-                    </a>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="header__content header__content_center">
-            <h1 className="header__title header__title_center">Основные сведения</h1>
-          </div>
-        </div>
-      </header>
+      <Header logo={logo} style={2} title="Документы"></Header>
 
       {/* DOCUMENTS */}
       <main>
         <div className="wrapper">
           <div className="wrapper__documents-nav documents-nav">
             <div className="documents-nav__column">
-              <ul className="documents-nav__list">
-                <li>
-                  <a className="documents-nav__link" href="#">
-                    Структура и органы управления образовательной организацией
-                  </a>
-                </li>
-                <li>
-                  <a className="documents-nav__link" href="#">
-                    Заказать справку об обучении
-                  </a>
-                </li>
-                <li>
-                  <a className="documents-nav__link" href="#">
-                    Документы
-                  </a>
-                </li>
-                <li>
-                  <a className="documents-nav__link" href="#">
-                    Стипендии
-                  </a>
-                </li>
-                <li>
-                  <a className="documents-nav__link" href="#">
-                    Галерея
-                  </a>
-                </li>
-              </ul>
+              <ul className="documents-nav__list">{posts && renderDocuments1(posts)}</ul>
             </div>
             <div className="documents-nav__column">
-              <ul className="documents-nav__list">
-                <li>
-                  <a className="documents-nav__link" href="#">
-                    Структура и органы управления образовательной организацией
-                  </a>
-                </li>
-                <li>
-                  <a className="documents-nav__link" href="#">
-                    Заказать справку об обучении
-                  </a>
-                </li>
-                <li>
-                  <a className="documents-nav__link" href="#">
-                    Документы
-                  </a>
-                </li>
-                <li>
-                  <a className="documents-nav__link" href="#">
-                    Стипендии
-                  </a>
-                </li>
-                <li>
-                  <a className="documents-nav__link" href="#">
-                    Галерея
-                  </a>
-                </li>
-              </ul>
+              <ul className="documents-nav__list">{posts && renderDocuments2(posts)}</ul>
             </div>
             <div className="documents-nav__column">
-              <ul className="documents-nav__list">
-                <li>
-                  <a className="documents-nav__link" href="#">
-                    Структура и органы управления образовательной организацией
-                  </a>
-                </li>
-                <li>
-                  <a className="documents-nav__link" href="#">
-                    Заказать справку об обучении
-                  </a>
-                </li>
-                <li>
-                  <a className="documents-nav__link" href="#">
-                    Документы
-                  </a>
-                </li>
-                <li>
-                  <a className="documents-nav__link" href="#">
-                    Стипендии
-                  </a>
-                </li>
-                <li>
-                  <a className="documents-nav__link" href="#">
-                    Галерея
-                  </a>
-                </li>
-              </ul>
+              <ul className="documents-nav__list">{posts && renderDocuments3(posts)}</ul>
             </div>
           </div>
         </div>

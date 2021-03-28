@@ -18,6 +18,12 @@ app.use('/uploads', express.static('static'));
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/spec', require('./routes/specialties.routes'));
 app.use('/api/college', require('./routes/college.routes'));
+app.use('/api/edu', require('./routes/edu.routes'));
+app.use('/api/abit', require('./routes/abit.routes'));
+app.use('/api/news', require('./routes/news.routes'));
+app.use('/api/documents', require('./routes/documents.routes'));
+app.use('/api/worker', require('./routes/worker.routes'));
+app.use('/api/file', require('./routes/files.routes'));
 
 const PORT = config.get('port') || 5000;
 

@@ -1,9 +1,10 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import logo from '../assets/img/logo.png';
-import news from '../assets/img/news.jpg';
 import Footer from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
 import Countdown from '../components/Home/Countdown';
+import NewsList from '../components/Home/NewsList';
 import SpecList from '../components/Specialities/SpecList';
 import { AuthContext } from '../context/authContext';
 import { useHttp } from '../hooks/http.hook';
@@ -11,6 +12,7 @@ import { useHttp } from '../hooks/http.hook';
 const Home = () => {
   const { token } = React.useContext(AuthContext);
   const [specialities, setSpecialities] = React.useState(null);
+  const [news, setNews] = React.useState(null);
   const { request, loading } = useHttp();
 
   const getSpecialities = React.useCallback(async () => {
@@ -25,6 +27,17 @@ const Home = () => {
   React.useEffect(() => {
     getSpecialities();
   }, [getSpecialities]);
+
+  const getNews = React.useCallback(async () => {
+    try {
+      const fetched = await request('/api/news/', 'GET');
+      setNews(fetched.reverse());
+    } catch (e) {}
+  }, [request]);
+
+  React.useEffect(() => {
+    getNews();
+  }, [getNews]);
   return (
     <>
       {/* Home Header */}
@@ -128,9 +141,9 @@ const Home = () => {
           <SpecList specialities={specialities} quantity={2}></SpecList>
           <div className="home-specialties__button-block">
             <div className="sh-button home-specialties__button sh-mt-30">
-              <a href="#">
+              <NavLink to={'/specialities'}>
                 Посмотреть все <i className="fi-rr-arrow-right"></i>
-              </a>
+              </NavLink>
             </div>
           </div>
         </section>
@@ -204,56 +217,7 @@ const Home = () => {
           <div className="title title_center home-news__title">
             <h2>Новости</h2>
           </div>
-          <div className="home-news__news-list news-list">
-            <div className="news-list__item">
-              <div className="news-list__img">
-                <img src={news} alt="news" />
-              </div>
-              <div className="news-list__content">
-                <h3 className="news-list__title">Возобновление дистанционного режима</h3>
-                <div className="news-list__date">23 ноября, 2020</div>
-                <p className="news-list__text">
-                  11.02.2021 года на отделении «Коптевское» прошли интерактивные беседы с
-                  обучающимися первого курса на тему: «Закон в обществе».
-                </p>
-                <a href="#" className="news-list__link">
-                  подробнее
-                </a>
-              </div>
-            </div>
-            <div className="news-list__item">
-              <div className="news-list__img">
-                <img src={news} alt="news" />
-              </div>
-              <div className="news-list__content">
-                <h3 className="news-list__title">Возобновление дистанционного режима</h3>
-                <div className="news-list__date">23 ноября, 2020</div>
-                <p className="news-list__text">
-                  11.02.2021 года на отделении «Коптевское» прошли интерактивные беседы с
-                  обучающимися первого курса на тему: «Закон в обществе».
-                </p>
-                <a href="#" className="news-list__link">
-                  подробнее
-                </a>
-              </div>
-            </div>
-            <div className="news-list__item">
-              <div className="news-list__img">
-                <img src={news} alt="news" />
-              </div>
-              <div className="news-list__content">
-                <h3 className="news-list__title">Возобновление дистанционного режима</h3>
-                <div className="news-list__date">23 ноября, 2020</div>
-                <p className="news-list__text">
-                  11.02.2021 года на отделении «Коптевское» прошли интерактивные беседы с
-                  обучающимися первого курса на тему: «Закон в обществе».
-                </p>
-                <a href="#" className="news-list__link">
-                  подробнее
-                </a>
-              </div>
-            </div>
-          </div>
+          <NewsList length={3} news={news} />
         </section>
         {/* Footer */}
         <Footer logo={logo}></Footer>

@@ -291,6 +291,23 @@ $warning: #d95767;
       text-decoration: underline;
     }
   }
+  &__thumbnail {
+    margin-top: 30px;
+    input,
+    label {
+      display: none;
+    }
+    & .document-card__delete {
+      top: -30px;
+    }
+    & .document-card {
+      margin-top: 10px;
+    }
+  }
+  &__thumbnail-img {
+    width: 200px;
+    margin-top: 20px;
+  }
 }
 
 .edit-posts {

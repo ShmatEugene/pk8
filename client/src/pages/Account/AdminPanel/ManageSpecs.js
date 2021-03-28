@@ -73,7 +73,7 @@ const ManageSpecs = () => {
               <h4 className="edit-posts__heading-published">опубликовано</h4>
               <h4 className="edit-posts__heading-clicks">клики</h4>
             </div>
-            {loading ? (
+            {loading && !specialities ? (
               <ContentLoader height={350} width={'100%'}>
                 <rect x="0" y="0" rx="5" ry="5" width="100%" height="66" />
                 <rect x="0" y="86" rx="5" ry="5" width="100%" height="66" />

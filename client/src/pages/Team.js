@@ -1,164 +1,52 @@
 import React from 'react';
 import logo from '../assets/img/logo.png';
+import team1 from '../assets/img/team1.jpg';
+import team2 from '../assets/img/team2.png';
+import team3 from '../assets/img/team3.png';
+import team4 from '../assets/img/team4.png';
 import humanPlaceholder from '../assets/img/human-placeholder.png';
+import { useHttp } from '../hooks/http.hook';
+import Header from '../components/Header/Header';
+import { API_URL } from '../config';
 
 const Team = () => {
+  const [workers, setWorkers] = React.useState(null);
+  const { request, loading } = useHttp();
+
+  const getWorkers = React.useCallback(async () => {
+    try {
+      const fetched = await request('/api/worker/', 'GET');
+      setWorkers(fetched);
+    } catch (e) {}
+  }, [request]);
+
+  React.useEffect(() => {
+    getWorkers();
+  }, [getWorkers]);
+
+  function renderTeam(team) {
+    return team.map((person) => (
+      <div key={person._id} className="team__person person">
+        <div className="person__img">
+          <img
+            src={person.imgLink ? `${API_URL}uploads/${person.imgLink}` : humanPlaceholder}
+            alt="humanPlaceholder"
+          />
+        </div>
+        <h3 className="person__name">{person.title}</h3>
+        <p className="person__position">{person.department}</p>
+        <p className="person__desc">{person.desc}</p>
+      </div>
+    ));
+  }
+
   return (
     <>
       {/* Header */}
-      <header className="header header_solid-fill">
-        <div className="header__header-top header-top">
-          <div className="wrapper header-top__wrapper">
-            <div className="header-top__contacts">
-              <a className="header-top__phone" href="tel:74955556677">
-                <i className="fi-rr-smartphone"></i>
-                <span>8 495 555 66 77</span>
-              </a>
-              <a className="header-top__mail" href="mailto:info@pk8.ru">
-                <i className="fi-rr-envelope"></i>
-                <span>info@pk8.ru</span>
-              </a>
-            </div>
-            <div className="header-top__login">
-              <a href="#">Войти</a>
-            </div>
-          </div>
-        </div>
-        <div className="wrapper">
-          <div className="header__header-nav header-nav">
-            <div className="header-nav__logo">
-              <a href="/">
-                <img src={logo} alt="logo" />
-              </a>
-            </div>
-            <div className="header-nav__menu">
-              <ul className="header-nav__menu-list">
-                <li>
-                  <div className="header-nav__menu-item">
-                    <a className="header-nav__menu-link" href="#">
-                      Колледж <i className="fi-rr-angle-small-down"></i>
-                    </a>
-                    <div className="header-nav__dropdown-munu-arrow"></div>
-                    <div className="header-nav__dropdown-menu">
-                      <ul className="header-nav__dropdown-list">
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Структура и органы управления образовательной организацией
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Заказать справку об обучении
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Документы
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Стипендии
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Галерея
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="header-nav__menu-item">
-                    <a className="header-nav__menu-link" href="#">
-                      Образование <i className="fi-rr-angle-small-down"></i>
-                    </a>
-                    <div className="header-nav__dropdown-munu-arrow"></div>
-                    <div className="header-nav__dropdown-menu">
-                      <ul className="header-nav__dropdown-list">
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Структура и органы управления образовательной организацией
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Заказать справку об обучении
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Документы
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Стипендии
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Галерея
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="header-nav__menu-item">
-                    <a className="header-nav__menu-link" href="#">
-                      Поступление <i className="fi-rr-angle-small-down"></i>
-                    </a>
-                    <div className="header-nav__dropdown-munu-arrow"></div>
-                    <div className="header-nav__dropdown-menu">
-                      <ul className="header-nav__dropdown-list">
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Структура и органы управления образовательной организацией
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Заказать справку об обучении
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Документы
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Стипендии
-                          </a>
-                        </li>
-                        <li>
-                          <a className="header-nav__dropdown-link" href="#">
-                            Галерея
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="header-nav__menu-item">
-                    <a className="header-nav__menu-link" href="#">
-                      Новости
-                    </a>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="header__content header__content_center">
-            <h1 className="header__title header__title_center">Педагогический состав</h1>
-          </div>
-        </div>
-      </header>
+      <Header
+        logo={logo}
+        style={2}
+        title="Руководство. Педагогический (научно-педагогический) состав"></Header>
 
       {/* TEAM */}
       <main>
@@ -167,52 +55,56 @@ const Team = () => {
             <div className="team__list team__list_management">
               <div className="team__person person">
                 <div className="person__img">
-                  <img src={humanPlaceholder} alt="humanPlaceholder" />
-                </div>
-                <h3 className="person__name">Константин Константинович Константинопольский</h3>
-                <p className="person__position">директор</p>
-                <div className="person__contacts">
-                  <ul>
-                    <li> +7 (495) 640-60-58</li>
-                    <li>TrofimovAN@edu.mos.ru</li>
-                  </ul>
-                </div>
-              </div>
-              <div className="team__person person">
-                <div className="person__img">
-                  <img src={humanPlaceholder} alt="humanPlaceholder" />
-                </div>
-                <h3 className="person__name">Константин Константинович Константинопольский</h3>
-                <p className="person__position">директор</p>
-                <div className="person__contacts">
-                  <ul>
-                    <li> +7 (495) 640-60-58</li>
-                    <li>TrofimovAN@edu.mos.ru</li>
-                  </ul>
-                </div>
-              </div>
-              <div className="team__person person">
-                <div className="person__img">
-                  <img src={humanPlaceholder} alt="humanPlaceholder" />
-                </div>
-                <h3 className="person__name">Константин Константинович Константинопольский</h3>
-                <p className="person__position">директор</p>
-                <div className="person__contacts">
-                  <ul>
-                    <li> +7 (495) 640-60-58</li>
-                    <li>TrofimovAN@edu.mos.ru</li>
-                  </ul>
-                </div>
-              </div>
-              <div className="team__person person">
-                <div className="person__img">
-                  <img src={humanPlaceholder} alt="humanPlaceholder" />
+                  <img src={team1} alt="humanPlaceholder" />
                 </div>
                 <h3 className="person__name">Трофимов Андрей Николаевич</h3>
                 <p className="person__position">директор</p>
                 <div className="person__contacts">
                   <ul>
                     <li> +7 (495) 640-60-58</li>
+                    <li>TrofimovAN@edu.mos.ru</li>
+                  </ul>
+                </div>
+              </div>
+              <div className="team__person person">
+                <div className="person__img">
+                  <img src={team2} alt="humanPlaceholder" />
+                </div>
+                <h3 className="person__name">Галиченко Ирина Анатольевна</h3>
+                <p className="person__position">
+                  Заместитель директора по учебно-производственной работе
+                </p>
+                <div className="person__contacts">
+                  <ul>
+                    <li> +7 (495) 640-60-58 (доб. 208)</li>
+                    <li>TrofimovAN@edu.mos.ru</li>
+                  </ul>
+                </div>
+              </div>
+              <div className="team__person person">
+                <div className="person__img">
+                  <img src={team3} alt="humanPlaceholder" />
+                </div>
+                <h3 className="person__name">Муковозова Наталья Ивановна</h3>
+                <p className="person__position">
+                  Заместитель директора по управлению качеством образования
+                </p>
+                <div className="person__contacts">
+                  <ul>
+                    <li> +7 (495) 640-60-58 (доб. 209)</li>
+                    <li>TrofimovAN@edu.mos.ru</li>
+                  </ul>
+                </div>
+              </div>
+              <div className="team__person person">
+                <div className="person__img">
+                  <img src={team4} alt="humanPlaceholder" />
+                </div>
+                <h3 className="person__name">Алешина Анастасия Витальевна</h3>
+                <p className="person__position">Заместитель директора по управлению ресурсами</p>
+                <div className="person__contacts">
+                  <ul>
+                    <li> +7 (495) 640-60-58 (доб. 207)</li>
                     <li>TrofimovAN@edu.mos.ru</li>
                   </ul>
                 </div>
@@ -239,74 +131,7 @@ const Team = () => {
               />
               <i className="search-block__search-icon fi-rr-search"></i>
             </div>
-            <div className="team__list team__list_staff">
-              <div className="team__person person">
-                <div className="person__img">
-                  <img src={humanPlaceholder} alt="humanPlaceholder" />
-                </div>
-                <h3 className="person__name">Константин Константинович Константинопольский</h3>
-                <p className="person__position">Дмитровское отделение</p>
-                <p className="person__desc">
-                  Преподаватель (высшая квалификационная категория), исполняющий обязанности
-                  заведующего отделением «Дмитровское»
-                </p>
-              </div>
-              <div className="team__person person">
-                <div className="person__img">
-                  <img src={humanPlaceholder} alt="humanPlaceholder" />
-                </div>
-                <h3 className="person__name">Константин Константинович Константинопольский</h3>
-                <p className="person__position">Дмитровское отделение</p>
-                <p className="person__desc">
-                  Преподаватель (высшая квалификационная категория), исполняющий обязанности
-                  заведующего отделением «Дмитровское»
-                </p>
-              </div>
-              <div className="team__person person">
-                <div className="person__img">
-                  <img src={humanPlaceholder} alt="humanPlaceholder" />
-                </div>
-                <h3 className="person__name">Короткое Имя</h3>
-                <p className="person__position">Дмитровское отделение</p>
-                <p className="person__desc">
-                  Преподаватель (высшая квалификационная категория), исполняющий обязанности
-                  заведующего отделением «Дмитровское»
-                </p>
-              </div>
-              <div className="team__person person">
-                <div className="person__img">
-                  <img src={humanPlaceholder} alt="humanPlaceholder" />
-                </div>
-                <h3 className="person__name">Короткое Имя</h3>
-                <p className="person__position">Дмитровское отделение</p>
-                <p className="person__desc">
-                  Преподаватель (высшая квалификационная категория), исполняющий обязанности
-                  заведующего отделением «Дмитровское»
-                </p>
-              </div>
-              <div className="team__person person">
-                <div className="person__img">
-                  <img src={humanPlaceholder} alt="humanPlaceholder" />
-                </div>
-                <h3 className="person__name">Константин Константинович Константинопольский</h3>
-                <p className="person__position">Дмитровское отделение</p>
-                <p className="person__desc">
-                  Преподаватель (высшая квалификационная категория), исполняющий обязанности
-                  заведующего отделением «Дмитровское»
-                </p>
-              </div>
-              <div className="team__person person">
-                <div className="person__img">
-                  <img src={humanPlaceholder} alt="humanPlaceholder" />
-                </div>
-                <h3 className="person__name">Константин Константинович Константинопольский</h3>
-                <p className="person__position">Дмитровское отделение</p>
-                <p className="person__desc">
-                  Преподаватель (высшая квалификационная категория), исполняющий обязанности
-                  заведующего отделением «Дмитровское»
-                </p>
-              </div>
-            </div>
+            <div className="team__list team__list_staff">{workers && renderTeam(workers)}</div>
           </div>
         </div>
       </main>
