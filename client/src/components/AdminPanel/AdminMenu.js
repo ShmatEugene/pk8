@@ -2,6 +2,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 const AdminMenu = () => {
+  const [isMobileMenuOpen, setMobileMenu] = React.useState(false);
+
   const navLinks = [
     {
       to: '/admin-panel/manage-news',
@@ -45,6 +47,10 @@ const AdminMenu = () => {
     },
   ];
 
+  const hamburgerClickHanlder = () => {
+    setMobileMenu(!isMobileMenuOpen);
+  };
+
   function renderMenu(navLinks) {
     return navLinks.map((link, index) => (
       <li key={index}>
@@ -55,7 +61,24 @@ const AdminMenu = () => {
     ));
   }
 
-  return <ul>{renderMenu(navLinks)}</ul>;
+  return (
+    <div
+      className={`account-layout__account-menu account-menu ${
+        isMobileMenuOpen && 'account-menu_active'
+      }`}>
+      <div
+        onClick={hamburgerClickHanlder}
+        className="hamburger account-menu__hamburger hamburger_white">
+        <span className="hamburger__outer">
+          <span
+            className={`hamburger__inner hamburger__inner_${isMobileMenuOpen && 'active'}`}></span>
+        </span>
+      </div>
+      <nav className="account-menu__nav">
+        <ul>{renderMenu(navLinks)}</ul>
+      </nav>
+    </div>
+  );
 };
 
 export default AdminMenu;

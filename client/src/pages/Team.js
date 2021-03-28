@@ -8,15 +8,36 @@ import humanPlaceholder from '../assets/img/human-placeholder.png';
 import { useHttp } from '../hooks/http.hook';
 import Header from '../components/Header/Header';
 import { API_URL } from '../config';
+import Search from '../components/UI/Search';
+import Footer from '../components/Footer/Footer';
 
 const Team = () => {
   const [workers, setWorkers] = React.useState(null);
+  const [sortedTeam, setSortedTeam] = React.useState(null);
+  const [sortFields, setSortFields] = React.useState([]);
+  const [searchField, setSearchField] = React.useState('');
+  const [sortBy, setSortBy] = React.useState({
+    department: false,
+  });
   const { request, loading } = useHttp();
 
   const getWorkers = React.useCallback(async () => {
     try {
       const fetched = await request('/api/worker/', 'GET');
       setWorkers(fetched);
+
+      //set sortting
+      const newSortFields = {};
+      newSortFields.department = [];
+      newSortFields.department.push('Отделение');
+      fetched.forEach((person) => {
+        newSortFields.department.push(person.department);
+      });
+      newSortFields.department = newSortFields.department.filter(
+        (item, index) => newSortFields.department.indexOf(item) === index,
+      );
+      console.log(newSortFields);
+      setSortFields(newSortFields);
     } catch (e) {}
   }, [request]);
 
@@ -24,6 +45,41 @@ const Team = () => {
     getWorkers();
   }, [getWorkers]);
 
+  //handlers
+  const onSortSelectHandler = (sortingField, option) => {
+    const newSortBy = { ...sortBy };
+    newSortBy[sortingField] = option;
+    console.log(newSortBy);
+    setSortBy(newSortBy);
+  };
+
+  //sorting
+  const sortWorkers = React.useMemo(() => {
+    if (workers) {
+      const sortedArray = workers.filter((item) => {
+        let flag = true;
+        if (sortBy.department && item.department !== sortBy.department) {
+          flag = false;
+        }
+        const searchRegExp = new RegExp(preg_quote(searchField), 'i');
+        if (searchField && !item.title.match(searchRegExp) && !item.desc.match(searchRegExp)) {
+          flag = false;
+        }
+        return flag;
+      });
+      console.log('Sorted array: ', sortedArray);
+      setSortedTeam(sortedArray);
+    }
+  }, [workers, sortBy, searchField]);
+
+  function preg_quote(str, delimiter) {
+    return (str + '').replace(
+      new RegExp('[.\\\\+*?\\[\\^\\]$(){}=!<>|:\\' + (delimiter || '') + '-]', 'g'),
+      '\\$&',
+    );
+  }
+
+  //render
   function renderTeam(team) {
     return team.map((person) => (
       <div key={person._id} className="team__person person">
@@ -110,194 +166,21 @@ const Team = () => {
                 </div>
               </div>
             </div>
-            <div className="search-block team__search-block">
-              <div className="search-block__sort">
-                Укрупненная группа <i className="fi-rr-angle-small-down"></i>
-              </div>
-              <div className="search-block__sort sort">
-                После 11 классов <i className="fi-rr-angle-small-down"></i>
-                <div className="sort__popup">
-                  <ul className="sort__list">
-                    <li>После 9 классов</li>
-                    <li>После 9 классов</li>
-                    <li>После 11 классов</li>
-                  </ul>
-                </div>
-              </div>
-              <input
-                placeholder="Искать по названию"
-                className="search-block__search-field"
-                type="text"
-              />
-              <i className="search-block__search-icon fi-rr-search"></i>
+            <Search
+              onOptionClick={onSortSelectHandler}
+              fields={sortFields}
+              onSearchFieldChange={(value) => setSearchField(value)}
+              searchFieldValue={searchField}
+            />
+            <div className="team__list team__list_staff">
+              {sortedTeam && renderTeam(sortedTeam)}
             </div>
-            <div className="team__list team__list_staff">{workers && renderTeam(workers)}</div>
           </div>
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="footer overview-block-pt">
-        <div className="wrapper footer__wrappper">
-          <div className="footer__callback callback">
-            <h3 className="callback__title">
-              Остались вопросы? Заполните форму и специалист из приемной комиссии свяжется в вами.
-            </h3>
-            <form className="callback__form" action="#">
-              <input className="callback__input" type="text" placeholder="введите номер телефона" />
-              <button className="callback__button" type="submit">
-                Отправить
-              </button>
-            </form>
-          </div>
-          <div className="footer__content">
-            <div className="footer__info">
-              <div className="footer__logo">
-                <img src={logo} alt="logo" />
-              </div>
-              <p className="footer__text">
-                Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает
-                сосредоточиться Lorem Ipsum используют потому, что тот обеспечивает более или менее
-                стандартное заполнение шаблона.
-              </p>
-              <div className="footer__social"></div>
-            </div>
-            <div className="footer__contacts">
-              <h3>Контакты</h3>
-              <div className="footer__personal-contacts-list">
-                <div className="footer__personal-contacts">
-                  <h4>Директор</h4>
-                  <ul>
-                    <li>Трофимов Андрей Николаевич </li>
-                    <li>TrofimovAN@edu.mos.ru</li>
-                    <li>+7 (495) 640-60-58</li>
-                    <li>Добавочный: 201</li>
-                  </ul>
-                </div>
-                <div className="footer__personal-contacts">
-                  <h4>Директор</h4>
-                  <ul>
-                    <li>Кирюшина Татьяна Викторовна</li>
-                    <li>+7 (495) 640-60-58</li>
-                    <li>Добавочный: 201</li>
-                  </ul>
-                </div>
-              </div>
-              <div className="footer__general-contacts">
-                <ul>
-                  <li>
-                    <i className="fi-rr-marker"></i>
-                    <span>125284, город Москва, 1-й Боткинский проезд, дом 7А</span>
-                  </li>
-                  <li>
-                    <i className="fi-rr-envelope"></i>
-                    <span>spo-8@edu.mos.ru</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div className="footer__nav">
-            <div className="footer__nav-column">
-              <h3>Колледж</h3>
-              <ul className="footer__nav-list">
-                <li>
-                  <a href="#">Структура и органы управления образовательной организацией</a>
-                </li>
-                <li>
-                  <a href="#">Заказать справку об обучении</a>
-                </li>
-                <li>
-                  <a href="#">Документы</a>
-                </li>
-                <li>
-                  <a href="#">Стипендии</a>
-                </li>
-                <li>
-                  <a href="#">Галерея</a>
-                </li>
-              </ul>
-            </div>
-            <div className="footer__nav-column">
-              <h3>Образование</h3>
-              <ul className="footer__nav-list">
-                <li>
-                  <a href="#">Структура и органы управления образовательной организацией</a>
-                </li>
-                <li>
-                  <a href="#">Заказать справку об обучении</a>
-                </li>
-                <li>
-                  <a href="#">Документы</a>
-                </li>
-                <li>
-                  <a href="#">Стипендии</a>
-                </li>
-                <li>
-                  <a href="#">Галерея</a>
-                </li>
-              </ul>
-            </div>
-            <div className="footer__nav-column">
-              <h3>Поступление</h3>
-              <ul className="footer__nav-list">
-                <li>
-                  <a href="#">Структура и органы управления образовательной организацией</a>
-                </li>
-                <li>
-                  <a href="#">Заказать справку об обучении</a>
-                </li>
-                <li>
-                  <a href="#">Документы</a>
-                </li>
-                <li>
-                  <a href="#">Стипендии</a>
-                </li>
-                <li>
-                  <a href="#">Галерея</a>
-                </li>
-              </ul>
-            </div>
-            <div className="footer__nav-column">
-              <h3>Новости</h3>
-              <ul className="footer__nav-list">
-                <li>
-                  <a href="#">Структура и органы управления образовательной организацией</a>
-                </li>
-                <li>
-                  <a href="#">Заказать справку об обучении</a>
-                </li>
-                <li>
-                  <a href="#">Документы</a>
-                </li>
-                <li>
-                  <a href="#">Стипендии</a>
-                </li>
-                <li>
-                  <a href="#">Галерея</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div className="footer__bottom-footer bottom-footer wrapper-fw">
-          <div className="wrapper bottom-footer__wrapper">
-            <div className="bottom-footer__contacts">
-              <span>© Все права защищены</span>
-            </div>
-            <div className="bottom-footer__contacts">
-              <a className="bottom-footer__phone" href="tel:74955556677">
-                <i className="fi-rr-smartphone"></i>
-                <span>8 495 555 66 77</span>
-              </a>
-              <a className="bottom-footer__mail" href="mailto:info@pk8.ru">
-                <i className="fi-rr-envelope"></i>
-                <span>info@pk8.ru</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 };

@@ -235,6 +235,9 @@ $warning: #d95767;
       color: $white;
     }
   }
+  &__hamburger {
+    display: none;
+  }
 }
 
 .account-content {
@@ -446,5 +449,234 @@ $warning: #d95767;
   &__redactor {
     padding-bottom: 20px !important;
     padding-top: 20px !important;
+  }
+}
+
+/*---------------------------------------------------------------------
+                          Responsive
+  -----------------------------------------------------------------------*/
+@media (max-width: 1400px) {
+  .account-menu {
+    position: fixed;
+    height: 100vh;
+    top: 65px;
+    transition: 0.3s;
+    width: 80px;
+    z-index: 50;
+    &__nav {
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.15s;
+    }
+    &_active {
+      width: 300px;
+      & .account-menu__nav {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+    &__hamburger {
+      display: block;
+    }
+  }
+  .account-content {
+    padding-left: 150px;
+    padding-top: 135px;
+  }
+  .account-header {
+    position: fixed;
+    z-index: 55;
+    background: $white;
+  }
+}
+
+@media (max-width: 1120px) {
+  .edit-list-card__title,
+  .edit-posts__heading-title {
+    width: 50%;
+  }
+  .edit-list-card__published,
+  .edit-posts__heading-published {
+    width: 20%;
+  }
+  .edit-list-card__clicks,
+  .edit-posts__heading-clicks {
+    width: 20%;
+  }
+  .edit-list-card__edit,
+  .edit-list-card__delete {
+    width: 5%;
+  }
+  .account-header__nav {
+    display: none;
+  }
+  .account-header__wrapper {
+    justify-content: flex-end;
+    padding-left: 20px;
+  }
+  .account-header__logo {
+    width: auto;
+  }
+}
+
+@media (max-width: 910px) {
+  .edit-list-card__title,
+  .edit-posts__heading-title {
+    width: 40%;
+  }
+  .edit-list-card__published,
+  .edit-posts__heading-published {
+    width: 35%;
+  }
+  .edit-list-card__clicks,
+  .edit-posts__heading-clicks {
+    width: 10%;
+  }
+  .edit-list-card__edit,
+  .edit-list-card__delete {
+    width: 6.5%;
+  }
+  .edit-list-card {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 910px) {
+  .edit-list-card__title,
+  .edit-posts__heading-title {
+    width: 40%;
+  }
+  .edit-list-card__published,
+  .edit-posts__heading-published {
+    width: 35%;
+  }
+  .edit-list-card__clicks,
+  .edit-posts__heading-clicks {
+    width: 10%;
+  }
+  .edit-list-card__edit,
+  .edit-list-card__delete {
+    width: 6.5%;
+  }
+  .edit-list-card {
+    padding: 10px 15px;
+  }
+  .edit-posts__header {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .account-content {
+    padding-left: 110px;
+    padding-right: 30px;
+  }
+  .account-header__wrapper {
+    padding-right: 30px;
+  }
+}
+
+@media (max-width: 910px) {
+  .edit-list-card {
+    padding: 10px 15px;
+  }
+  .account-content {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .account-header__wrapper {
+    padding-right: 15px;
+  }
+  .account-menu {
+    width: 0px;
+    background: $white;
+    z-index: 50;
+    &__nav {
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.15s;
+    }
+    &_active {
+      width: 300px;
+      background: $accent;
+      & .account-menu__nav {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+    &__hamburger {
+      display: block;
+    }
+    .hamburger_white {
+      & .hamburger__inner {
+        background-color: $black;
+        &::before {
+          background-color: $black;
+        }
+        &::after {
+          background-color: $black;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .edit-list-card__published,
+  .edit-posts__heading-published {
+    display: none;
+  }
+  .edit-list-card__clicks,
+  .edit-posts__heading-clicks {
+    display: none;
+  }
+  .edit-list-card__title,
+  .edit-posts__heading-title {
+    width: 80%;
+  }
+  .edit-list-card__edit,
+  .edit-list-card__delete {
+    width: 10%;
+  }
+  .account-header__logo {
+    display: none;
+  }
+  .account-content__title h2 {
+    font-size: 18px;
+    line-height: 21px;
+  }
+  .account-content__post-link {
+    margin-top: 7px;
+  }
+  .post-fields__input,
+  .document-card > .input {
+    width: 100%;
+  }
+  .post-fields__textarea {
+    width: 100%;
+  }
+  .account-content__document-card {
+    width: 100%;
+    margin-right: 0;
+  }
+  .account-content__actions {
+    flex-wrap: wrap;
+  }
+  .account-header {
+    z-index: 45;
+  }
+  .hamburger__outer {
+    top: -65px;
+  }
+  .account-menu_active {
+    & .hamburger__inner {
+      &::before {
+        background-color: $black !important;
+      }
+      &::after {
+        background-color: $black !important;
+      }
+    }
+  }
+  .account-header__email {
+    display: none;
   }
 }

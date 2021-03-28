@@ -55,11 +55,7 @@ const ManageSpecs = () => {
 
       {/* Account */}
       <div className="account-layout">
-        <div className="account-layout__account-menu account-menu">
-          <nav className="account-menu__nav">
-            <AdminMenu />
-          </nav>
-        </div>
+        <AdminMenu />
         <div className="account-layout__account-content account-content">
           <div className="account-content__title">
             <h2>Нарпавления подготовки</h2>

@@ -987,7 +987,11 @@ ul {
     left: 0px;
     top: 40px;
     width: 100%;
-    min-width: 165px;
+    min-width: 200px;
+    display: none;
+    &_active {
+      display: block;
+    }
   }
   &__list {
     li {
@@ -1116,6 +1120,19 @@ ul {
       transition: top 0.1s cubic-bezier(0.33333, 0, 0.66667, 0.33333) 0.15s,
         transform 0.13s cubic-bezier(0.215, 0.61, 0.355, 1) 0.22s;
       transform: translate3d(0, 10px, 0) rotate(45deg);
+    }
+  }
+  &_white {
+    margin-bottom: -54px;
+    padding: 20px;
+    & .hamburger__inner {
+      background-color: $white;
+      &::before {
+        background-color: $white;
+      }
+      &::after {
+        background-color: $white;
+      }
     }
   }
 }

@@ -23,17 +23,7 @@ function App() {
 
   return (
     <AuthContext.Provider value={{ token, userId, login, logout, isAuthenticated }}>
-      <Router>
-        {routes}
-        {/* <Home></Home> */}
-        {/* <Post></Post> */}
-        {/* <Documents></Documents> */}
-        {/* <AdmissionsCommittee></AdmissionsCommittee> */}
-        {/* <SpecListPage></SpecListPage> */}
-        {/* <SingleSpec></SingleSpec> */}
-        {/* <Team></Team> */}
-        {/* <Gallery></Gallery> */}
-      </Router>
+      <Router>{routes}</Router>
     </AuthContext.Provider>
   );
 }

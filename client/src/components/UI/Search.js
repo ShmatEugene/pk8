@@ -1,22 +1,25 @@
 import React from 'react';
+import SortPopup from './SortPopup';
+import { DebounceInput } from 'react-debounce-input';
 
-const Search = () => {
+const Search = ({ fields, onOptionClick, searchFieldValue, onSearchFieldChange }) => {
+  function renderPopups(popups) {
+    return Object.keys(popups).map((popup, index) => (
+      <SortPopup onOptionClick={onOptionClick} key={index} options={popups[popup]} label={popup} />
+    ));
+  }
+
   return (
     <div className="search-block specialities-page__search-block">
-      <div className="search-block__sort">
-        Укрупненная группа <i className="fi-rr-angle-small-down"></i>
-      </div>
-      <div className="search-block__sort sort">
-        После 11 классов <i className="fi-rr-angle-small-down"></i>
-        <div className="sort__popup">
-          <ul className="sort__list">
-            <li>После 9 классов</li>
-            <li>После 9 классов</li>
-            <li>После 11 классов</li>
-          </ul>
-        </div>
-      </div>
-      <input placeholder="Искать по названию" className="search-block__search-field" type="text" />
+      {fields && renderPopups(fields)}
+      <DebounceInput
+        minLength={0}
+        debounceTimeout={300}
+        onChange={(e) => onSearchFieldChange(e.target.value)}
+        value={searchFieldValue}
+        className="search-block__search-field"
+        placeholder="Искать по названию"
+      />
       <i className="search-block__search-icon fi-rr-search"></i>
     </div>
   );
