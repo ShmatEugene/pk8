@@ -127,7 +127,7 @@ const AuthPage = () => {
         email: formControls.email.value,
         password: formControls.password.value,
       });
-      auth.login(data.token, data.userId);
+      auth.login(data.token, data.userId, formControls.email.value);
     } catch (e) {
       console.log(e);
     }

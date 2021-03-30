@@ -36,7 +36,7 @@ const AdminHeader = () => {
           </ul>
         </nav>
         <div className="account-header__user">
-          <div className="account-header__email">shmat.evg@yandex.ru</div>
+          <div className="account-header__email">{auth.email && auth.email}</div>
           <div className="account-header__logout">
             <a onClick={logoutHandler} href="/">
               Выйти

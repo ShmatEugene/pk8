@@ -16,13 +16,13 @@ import SimpleImage from '@editorjs/simple-image';
 import { API_URL } from './config';
 
 export const EDITOR_JS_TOOLS = {
-  embed: Embed,
+  //embed: Embed,
   table: Table,
-  marker: Marker,
+  //marker: Marker,
   list: List,
-  warning: Warning,
-  code: Code,
-  linkTool: LinkTool,
+  //warning: Warning,
+  //code: Code,
+  //linkTool: LinkTool,
   image: {
     class: Image,
     config: {
@@ -33,13 +33,13 @@ export const EDITOR_JS_TOOLS = {
       },
     },
   },
-  raw: Raw,
+  //raw: Raw,
   header: Header,
-  quote: Quote,
-  checklist: CheckList,
-  delimiter: Delimiter,
-  inlineCode: InlineCode,
-  simpleImage: SimpleImage,
+  //quote: Quote,
+  //checklist: CheckList,
+  //delimiter: Delimiter,
+  //inlineCode: InlineCode,
+  //simpleImage: SimpleImage,
 };
 
 export const EIDTOR_JS_I18N = {
