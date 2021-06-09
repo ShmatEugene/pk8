@@ -44,7 +44,7 @@ const Home = () => {
       <Header logo={logo} style={1}></Header>
       <main>
         {/* countdown */}
-        <Countdown countdownDate={new Date('April 18, 2021 19:00:00')}></Countdown>
+        <Countdown countdownDate={new Date('Jule 18, 2021 19:00:00')}></Countdown>
         {/* advantages */}
         <section className="advantages wrapper overview-block-pt">
           <div className="title title_center advantages__title">

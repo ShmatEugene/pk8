@@ -18,7 +18,7 @@ const Search = ({ fields, onOptionClick, searchFieldValue, onSearchFieldChange }
         onChange={(e) => onSearchFieldChange(e.target.value)}
         value={searchFieldValue}
         className="search-block__search-field"
-        placeholder="Искать по названию"
+        placeholder="Искать по названию/имени"
       />
       <i className="search-block__search-icon fi-rr-search"></i>
     </div>

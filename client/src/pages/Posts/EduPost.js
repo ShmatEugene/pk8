@@ -8,6 +8,7 @@ import Table from '../../components/UI/Table';
 import DocsList from '../../components/UI/DocsList';
 import BulletList from '../../components/UI/BulletList';
 import Footer from '../../components/Footer/Footer';
+import Sidebar from '../../components/UI/Sidebar';
 
 const EduPost = () => {
   const auth = React.useContext(AuthContext);
@@ -69,7 +70,7 @@ const EduPost = () => {
             {post.editorData && renderEditorData(post.editorData)}
             <DocsList documents={post.documents} />
           </div>
-          <div className="sidebar"></div>
+          <Sidebar />
         </div>
       </main>
 

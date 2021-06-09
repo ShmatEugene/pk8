@@ -2,6 +2,7 @@ import React from 'react';
 import logo from '../assets/img/logo.png';
 import Header from '../components/Header/Header';
 import DocsList from '../components/UI/DocsList';
+import Sidebar from '../components/UI/Sidebar';
 import Table from '../components/UI/Table';
 
 const Post = () => {
@@ -105,7 +106,7 @@ const Post = () => {
               </li>
             </ul>
           </div>
-          <div className="sidebar"></div>
+          <Sidebar />
         </div>
       </main>
 

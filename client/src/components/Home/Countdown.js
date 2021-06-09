@@ -40,7 +40,7 @@ const Countdown = (props) => {
     <section className="countdown wrapper-fw sh-bg">
       <div className="wrapper">
         <div className="countdown__inner">
-          <h2 className="countdown__header">18 апреля пройдет день открытых дверей</h2>
+          <h2 className="countdown__header">18 июля пройдет день открытых дверей</h2>
           <div className="countdown__location">
             <i className="fi-rr-marker"></i>
             город Москва, 1-й Боткинский проезд, дом 7А

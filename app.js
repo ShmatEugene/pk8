@@ -25,7 +25,7 @@ app.use('/api/documents', require('./routes/documents.routes'));
 app.use('/api/worker', require('./routes/worker.routes'));
 app.use('/api/file', require('./routes/files.routes'));
 
-const PORT = config.get('port') || 5000;
+const PORT = process.env.PORT || config.get('port') || 5000;
 
 async function start() {
   try {

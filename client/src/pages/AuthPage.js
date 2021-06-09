@@ -104,6 +104,7 @@ const AuthPage = () => {
             validation={control.validation}
             shouldValidate={control.shouldValidate}
             onChange={(event) => onInputChangeHandler(event, controlName)}
+            classes={['auth-form__input']}
           />
         </div>
       );
@@ -136,15 +137,15 @@ const AuthPage = () => {
   return (
     <div className="wrapper wrapper__auth-form">
       <div className="auth-form">
-        <h3 className="auth-form__title">Auth page</h3>
+        <h3 className="auth-form__title">Добро пожаловать</h3>
         <div className="auth-form__fields">{renderInputs()}</div>
         <div className="auth-form__action">
-          <button onClick={loginHandler} disabled={!isFormValid}>
+          <button className="auth-form__button" onClick={loginHandler} disabled={!isFormValid}>
             Войти
           </button>
-          <button onClick={registerHandler} disabled={!isFormValid || loading}>
+          {/* <button onClick={registerHandler} disabled={!isFormValid || loading}>
             Регистрация
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

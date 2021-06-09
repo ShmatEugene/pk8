@@ -4,6 +4,7 @@ import logo from '../assets/img/logo.png';
 import Footer from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
 import Loader from '../components/UI/Loader';
+import Sidebar from '../components/UI/Sidebar';
 import { API_URL } from '../config';
 import { AuthContext } from '../context/authContext';
 import { useHttp } from '../hooks/http.hook';
@@ -95,7 +96,7 @@ const SingleSpec = () => {
                   </>
                 )}
               </div>
-              <div className="sidebar"></div>
+              <Sidebar />
             </div>
           </main>
         </>
