@@ -51,6 +51,10 @@ const Header = (props) => {
           });
         }
       });
+      link.submenu.push({
+        to: `/team`,
+        label: 'Педагогический состав',
+      });
       newFetchedLinks.push(link);
 
       const fetchedAbitLinks = await request('/api/abit/', 'GET');
@@ -206,9 +210,9 @@ const Header = (props) => {
               стандартное заполнение шаблона.
             </p>
             <div className="sh-button header__button sh-mt-30">
-              <a href="#">
+              <NavLink to="/specialities">
                 Узнать больше <i className="fi-rr-arrow-right"></i>
-              </a>
+              </NavLink>
             </div>
           </div>
         ) : null}

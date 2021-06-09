@@ -154,29 +154,29 @@ const Home = () => {
               <h3 className="info-block__title">Приемная комиссия</h3>
               <ul>
                 <li>
-                  <a className="info-block__link" href="#">
+                  <NavLink className="info-block__link" to="/abit/60c0f3ee10dd6c3fb8c4a5d9">
                     Условия приёма
-                  </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a className="info-block__link" href="#">
+                  <NavLink className="info-block__link" to="/abit/admission-committee">
                     График работы приёмной комиссии
-                  </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a className="info-block__link" href="#">
+                  <NavLink className="info-block__link" to="/abit/60c0f4bf10dd6c3fb8c4a5dd">
                     Контрольные цифры приёма
-                  </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a className="info-block__link" href="#">
+                  <NavLink className="info-block__link" to="/abit/60c0f94d10dd6c3fb8c4a5df">
                     Количество поданных заявлений
-                  </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a className="info-block__link" href="#">
+                  <NavLink className="info-block__link" to="/abit/60c0f6d810dd6c3fb8c4a5de">
                     Результаты приёма на 2020-2021 учебный год
-                  </a>
+                  </NavLink>
                 </li>
               </ul>
             </div>
@@ -184,29 +184,29 @@ const Home = () => {
               <h3 className="info-block__title">Образование в ГАПОУ ПК №8</h3>
               <ul>
                 <li>
-                  <a className="info-block__link" href="#">
-                    Условия приёма
-                  </a>
+                  <NavLink className="info-block__link" to="/edu/60c0ed0b98316b5c24bfb8ee">
+                    Образовательные стандарты
+                  </NavLink>
                 </li>
                 <li>
-                  <a className="info-block__link" href="#">
-                    График работы приёмной комиссии
-                  </a>
+                  <NavLink className="info-block__link" to="/edu/60c0ee3198316b5c24bfb8fe">
+                    Платные образовательные услуги
+                  </NavLink>
                 </li>
                 <li>
-                  <a className="info-block__link" href="#">
-                    Контрольные цифры приёма
-                  </a>
+                  <NavLink className="info-block__link" to="/edu/60c0ef0a98316b5c24bfb903">
+                    Вакантные места для приема (перевода) обучающихся
+                  </NavLink>
                 </li>
                 <li>
-                  <a className="info-block__link" href="#">
-                    Количество поданных заявлений
-                  </a>
+                  <NavLink className="info-block__link" to="/edu/60c0f1bd98316b5c24bfb904">
+                    Дополнительное образование
+                  </NavLink>
                 </li>
                 <li>
-                  <a className="info-block__link" href="#">
-                    Результаты приёма на 2020-2021 учебный год
-                  </a>
+                  <NavLink className="info-block__link" to="/team">
+                    Педагогический состав
+                  </NavLink>
                 </li>
               </ul>
             </div>

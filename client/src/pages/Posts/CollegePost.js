@@ -9,6 +9,7 @@ import DocsList from '../../components/UI/DocsList';
 import BulletList from '../../components/UI/BulletList';
 import Footer from '../../components/Footer/Footer';
 import Sidebar from '../../components/UI/Sidebar';
+import { API_URL } from '../../config';
 
 const CollegePost = () => {
   const auth = React.useContext(AuthContext);
@@ -51,6 +52,15 @@ const CollegePost = () => {
 
           case 'list':
             return <BulletList key={index} items={block.data.items} />;
+
+          case 'image':
+            return (
+              <img
+                className="post__image"
+                key={index}
+                src={API_URL + 'uploads/' + block.data.file.name}
+              />
+            );
 
           default:
             break;
