@@ -10,11 +10,11 @@ const AdminMenu = () => {
       label: 'Новости',
       exact: true,
     },
-    {
-      to: '/admin-panel/manage-users',
-      label: 'Пользователи',
-      exact: true,
-    },
+    // {
+    //   to: '/admin-panel/manage-users',
+    //   label: 'Пользователи',
+    //   exact: true,
+    // },
     {
       to: '/admin-panel/manage-specs',
       label: 'Нарпавления подготовки',

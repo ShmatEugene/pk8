@@ -157,6 +157,9 @@ export const useRoutes = (isAuthenticated) => {
       <Route path="/abit/admission-committee" exact>
         <AdmissionsCommittee />
       </Route>
+      <Route path="/abit/:id">
+        <AbitPost />
+      </Route>
       <Route path="/edu/:id">
         <Post />
       </Route>

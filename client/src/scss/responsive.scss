@@ -84,6 +84,11 @@ $dark: #120f2d;
       }
     }
   }
+  .header-top {
+    &__login {
+      display: none;
+    }
+  }
   .advantage {
     width: 100%;
   }
@@ -147,6 +152,7 @@ $dark: #120f2d;
   }
   .sidebar {
     width: 100%;
+    padding-left: 0;
   }
   .documents-nav {
     flex-wrap: wrap;
@@ -307,6 +313,11 @@ $dark: #120f2d;
       }
     }
   }
+  .header-top {
+    &__login {
+      display: none;
+    }
+  }
   .advantage {
     width: 100%;
   }
@@ -401,6 +412,7 @@ $dark: #120f2d;
   }
   .sidebar {
     width: 100%;
+    padding-left: 0;
   }
   .documents-nav {
     padding: 60px 30px;
@@ -519,7 +531,7 @@ $dark: #120f2d;
         font-size: 12px;
       }
       &__login {
-        display: block;
+        display: none;
       }
     }
     .sh-bg.header__bg {
@@ -766,6 +778,7 @@ $dark: #120f2d;
   }
   .sidebar {
     width: 100%;
+    padding-left: 0;
   }
   .documents-nav {
     padding: 60px 30px;
