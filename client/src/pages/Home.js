@@ -123,9 +123,9 @@ const Home = () => {
                 № 8 неизменно готовил специалистов, необходимых отечественной экономике
               </p>
               <div className="sh-button message__button sh-mt-30">
-                <a href="#">
+                <NavLink to="/college/60c0ea1798316b5c24bfb8ec">
                   Читать полностью <i className="fi-rr-arrow-right"></i>
-                </a>
+                </NavLink>
               </div>
             </div>
           </div>

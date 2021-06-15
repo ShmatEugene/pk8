@@ -120,13 +120,23 @@ const Header = (props) => {
           className={`header-nav__menu-item  ${
             selectedDropdownMenu === index ? 'header-nav__menu-item_active' : ''
           }`}>
-          <NavLink
-            onClick={() => dropdownMenuClickHandler(index)}
-            className="header-nav__menu-link"
-            to={link.to}>
-            {link.label}
-            {link.submenu && <i className="fi-rr-angle-small-down"></i>}
-          </NavLink>
+          {link.to === '/news' ? (
+            <NavLink
+              onClick={() => dropdownMenuClickHandler(index)}
+              className="header-nav__menu-link"
+              to={link.to}>
+              {link.label}
+              {link.submenu && <i className="fi-rr-angle-small-down"></i>}
+            </NavLink>
+          ) : (
+            <div
+              onClick={() => dropdownMenuClickHandler(index)}
+              className="header-nav__menu-link"
+              to={link.to}>
+              {link.label}
+              {link.submenu && <i className="fi-rr-angle-small-down"></i>}
+            </div>
+          )}
           <div className="header-nav__dropdown-munu-arrow"></div>
           {link.submenu && (
             <div
@@ -205,9 +215,10 @@ const Header = (props) => {
               Откройте свои карьерные <span className="sh-accent-font">возможности</span> с нами
             </h1>
             <p className="header__text sh-mt-30">
-              Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает
-              сосредоточиться Lorem Ipsum используют потому, что тот обеспечивает более или менее
-              стандартное заполнение шаблона.
+              Политехнический колледж № 8 имени Дважды Героя Советского Союза И.Ф. Павлова - это
+              современная образовательная организация из шести учебно-производственных площадок,
+              оснащенных высокотехнологичным оборудованием для подготовки высококвалифицированных
+              специалистов.
             </p>
             <div className="sh-button header__button sh-mt-30">
               <NavLink to="/specialities">
